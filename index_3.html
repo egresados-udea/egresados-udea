@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tablero de Eventos — Egresados UdeA</title>
+<style>
+  :root{
+    --udea-green:#026937; --udea-green-dark:#014d28; --udea-lime:#93d500; --udea-orange:#f9a12c;
+    --udea-teal:#007297; --udea-teal-light:#3bbfad; --bg:#f5f6f3; --card-bg:#ffffff;
+    --text:#1b241d; --text-muted:#5c6b62; --border:#dfe3dc;
+    --prio-alta:#ef434d; --prio-media:#f9a12c; --prio-baja:#43b649;
+    --radius:8px; --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px;
+    --shadow:0 1px 2px rgba(2,105,55,0.05), 0 3px 10px rgba(2,105,55,0.05);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased;}
+  .tabular{font-variant-numeric:tabular-nums;}
+
+  header.top{background:var(--udea-green-dark); color:#fff; padding:22px 24px 16px; display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap;}
+  .brand-row{display:flex; align-items:center; gap:10px; margin-bottom:6px;}
+  .mark{width:22px;height:22px; background:var(--udea-lime); transform:rotate(45deg); border-radius:5px; flex-shrink:0;}
+  header.top h1{margin:0; font-size:20px; font-weight:800; letter-spacing:-0.01em;}
+  header.top p{margin:2px 0 0 32px; font-size:13px; color:#cfe4d2; max-width:560px; line-height:1.5;}
+  .share-note{display:inline-flex; align-items:center; gap:6px; margin:12px 0 0 32px; padding:5px 10px; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.22); border-radius:20px; font-size:11.5px;}
+  .header-stat{align-self:center; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.25); border-radius:8px; padding:8px 14px; font-size:13px; font-weight:700; white-space:nowrap;}
+  .id-stripe{display:flex; height:5px;} .id-stripe span{flex:1;}
+  .id-stripe .s1{background:var(--udea-lime);} .id-stripe .s2{background:var(--udea-orange);} .id-stripe .s3{background:var(--udea-teal-light);}
+
+  .top-panels{display:grid; grid-template-columns:1.6fr 1fr; gap:16px; padding:18px 24px; background:var(--card-bg); border-bottom:1px solid var(--border);}
+  .panel{border:1px solid var(--border); border-radius:var(--radius); background:#fff; padding:14px;}
+  .panel-title{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--udea-teal); margin-bottom:10px;}
+  .cal-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;}
+  .cal-title{font-size:13.5px; font-weight:700;}
+  .cal-nav{background:none; border:1px solid var(--border); border-radius:6px; width:26px; height:26px; cursor:pointer; color:var(--udea-teal); font-weight:800;}
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:3px;}
+  .cal-daylabel{font-size:10px; text-align:center; color:var(--text-muted); font-weight:700; padding-bottom:3px;}
+  .cal-cell{min-height:56px; border:1px solid var(--border); border-radius:5px; padding:3px; font-size:10px; background:#fbfcfa;}
+  .cal-cell.empty{border:none; background:transparent;}
+  .cal-cell.today{border-color:var(--udea-teal); background:#eaf6f8;}
+  .cal-daynum{font-size:10.5px; font-weight:700; color:var(--text-muted); margin-bottom:2px;}
+  .cal-pill{border-radius:4px; padding:1px 4px; margin-bottom:2px; color:#fff; font-weight:700; font-size:9px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer;}
+  .cal-pill.prio-Alta{background:var(--prio-alta);} .cal-pill.prio-Media{background:var(--prio-media);} .cal-pill.prio-Baja{background:var(--prio-baja);}
+  .cal-more{font-size:9px; color:var(--text-muted); font-weight:700;}
+  .feed-item{border-bottom:1px dashed var(--border); padding:7px 0; font-size:12px; line-height:1.5;}
+  .feed-item:last-child{border-bottom:none;}
+  .feed-item b{color:var(--udea-green-dark);}
+  .feed-date{color:var(--text-muted); font-size:10.5px;}
+  .feed-empty{color:var(--text-muted); font-size:12px; padding:6px 0;}
+
+  .tabs{display:flex; gap:2px; padding:14px 24px 0; background:var(--card-bg); border-bottom:1px solid var(--border);}
+  .tab-btn{font-family:inherit; font-size:13px; font-weight:700; padding:9px 16px; border:none; background:transparent; color:var(--text-muted); cursor:pointer; border-bottom:2px solid transparent;}
+  .tab-btn.active{color:var(--udea-green-dark); border-bottom-color:var(--udea-green-dark);}
+  .toolbar{display:flex; flex-wrap:wrap; gap:10px; align-items:center; padding:12px 24px; background:var(--card-bg); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:5;}
+  select, .btn{font-family:inherit; font-size:13px; border-radius:7px; border:1px solid var(--border); padding:7px 10px; background:#fff; color:var(--text); cursor:pointer;}
+  .btn-primary{background:var(--udea-green-dark); border-color:var(--udea-green-dark); color:#fff; font-weight:700;}
+  .btn-primary:hover{background:var(--udea-green);}
+  .btn-secondary{background:#fff; color:var(--udea-teal); border-color:var(--udea-teal); font-weight:700;}
+  .btn-secondary:hover{background:#eaf6f8;}
+  .btn-ghost{background:transparent; border-color:transparent; color:var(--text-muted); font-weight:600;}
+  .spacer{flex:1;}
+  .save-flash{font-size:12px; color:var(--udea-green-dark); font-weight:700; opacity:0; transition:opacity .3s;}
+  .save-flash.show{opacity:1;}
+  .banner{display:none; background:#fdecea; color:#8a1f27; border:1px solid #f3c2c6; padding:10px 24px; font-size:13px;}
+  .banner.show{display:block;}
+
+  main{padding:20px 24px 60px; max-width:1200px; margin:0 auto;}
+  .loading, .empty{text-align:center; color:var(--text-muted); padding:60px 0; font-size:13.5px;}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:var(--sp-4);}
+  .card{background:var(--card-bg); border:1px solid var(--border); border-left:4px solid var(--prio-media); border-radius:var(--radius); box-shadow:var(--shadow); padding:var(--sp-4);}
+  .card.prio-Alta{border-left-color:var(--prio-alta);} .card.prio-Media{border-left-color:var(--prio-media);} .card.prio-Baja{border-left-color:var(--prio-baja);}
+  .card h3{margin:0 0 6px; font-size:14.5px; font-weight:700; line-height:1.35;}
+  .card .meta{font-size:12px; color:var(--text-muted); margin-bottom:8px; line-height:1.5;}
+  .card-contact-list{font-size:11.5px; color:var(--text-muted); margin-bottom:var(--sp-2); line-height:1.6;}
+  .chips{display:flex; flex-wrap:wrap; gap:5px; margin-bottom:var(--sp-3);}
+  .chip{font-size:10.5px; padding:3px 9px; border-radius:20px; background:#eef4ee; color:var(--udea-green-dark); font-weight:700; white-space:nowrap;}
+  .chip.estado-Planeación{background:#fdf3e3; color:#8a5b00;}
+  .chip.estado-Confirmado{background:#e3f0fb; color:#0d5a7a;}
+  .chip.estado-Ejecutado{background:#e6f5e9; color:#1c6b34;}
+  .prio-dot{display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px;}
+  .prio-dot.Alta{background:var(--prio-alta);} .prio-dot.Media{background:var(--prio-media);} .prio-dot.Baja{background:var(--prio-baja);}
+  .card-actions{display:flex; gap:8px;}
+  .card-actions button{flex:1; font-size:12px; padding:7px; border-radius:6px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:700;}
+  .card-actions .edit-btn{color:var(--udea-teal); border-color:var(--udea-teal);}
+  .card-actions .del-btn{color:#b5222c;}
+
+  .cov-table{width:100%; border-collapse:collapse; background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;}
+  .cov-table th{text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); background:#f0f2ee; padding:10px 12px; border-bottom:1px solid var(--border); font-weight:700;}
+  .cov-table td{padding:11px 12px; border-bottom:1px solid var(--border); font-size:12.5px; vertical-align:top;}
+  .cov-table tr:last-child td{border-bottom:none;}
+  .badge{display:inline-block; padding:3px 9px; border-radius:20px; font-size:10.5px; font-weight:700;}
+  .badge.st-red{background:#fdecea; color:#a12128;} .badge.st-yellow{background:#fdf3e3; color:#8a5b00;} .badge.st-green{background:#e6f5e9; color:#1c6b34;}
+  .cov-actions{display:flex; gap:6px; flex-wrap:wrap;}
+  .cov-actions button{font-size:11px; padding:5px 8px; border-radius:6px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:700;}
+  .cov-actions .mailto-mini{color:var(--udea-teal); border-color:var(--udea-teal);}
+  .cov-actions .confirm-mini{color:var(--udea-green-dark); border-color:var(--udea-green-dark);}
+  .unit-name{font-weight:700;} .unit-type{font-size:10.5px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.03em;}
+
+  .overlay{position:fixed; inset:0; background:rgba(15,25,18,0.45); display:none; align-items:flex-start; justify-content:center; padding:30px 16px; overflow-y:auto; z-index:20;}
+  .overlay.show{display:flex;}
+  .modal{background:#fff; border-radius:12px; width:100%; max-width:640px; padding:24px; box-shadow:0 20px 50px rgba(0,0,0,0.25);}
+  .modal h2{margin:0 0 4px; font-size:16.5px;}
+  .modal .modal-sub{font-size:12px; color:var(--text-muted); margin-bottom:var(--sp-4);}
+  fieldset{border:none; padding:0; margin:0 0 var(--sp-4);}
+  legend{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--udea-teal); margin-bottom:var(--sp-2); padding:0;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;}
+  .field-row.full{grid-template-columns:1fr;}
+  label{display:block; font-size:11.5px; color:var(--text-muted); margin-bottom:4px; font-weight:600;}
+  input[type=text], input[type=date], textarea, select.form-input{width:100%; font-family:inherit; font-size:13px; padding:8px 10px; border:1px solid var(--border); border-radius:6px; background:#fbfcfa; color:var(--text);}
+  textarea{resize:vertical; min-height:44px;}
+  .modal-actions{display:flex; justify-content:space-between; gap:10px; margin-top:4px;}
+  .enlace-info{background:#eaf6f8; border:1px solid #bfe3ea; border-radius:7px; padding:8px 10px; font-size:12px; color:var(--text); line-height:1.6; margin-bottom:6px;}
+  .enlace-info b{color:var(--udea-teal);}
+  .enlace-info a.mailto-btn{display:inline-block; margin-top:4px; font-size:11.5px; font-weight:700; color:#fff; background:var(--udea-teal); padding:4px 9px; border-radius:5px; text-decoration:none;}
+  .chip-list{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;}
+  .unit-chip{display:inline-flex; align-items:center; gap:6px; background:#eef4ee; color:var(--udea-green-dark); font-size:12px; font-weight:700; padding:4px 6px 4px 10px; border-radius:20px;}
+  .unit-chip button{background:none; border:none; cursor:pointer; color:var(--udea-green-dark); font-weight:800; font-size:13px;}
+  .otro-inline{display:flex; gap:6px; margin-top:6px;} .otro-inline input{flex:1;}
+
+  @media (max-width:900px){ .top-panels{grid-template-columns:1fr;} }
+  @media (max-width:640px){
+    .field-row{grid-template-columns:1fr;}
+    header.top{padding:18px 16px 14px;} header.top p, .share-note{margin-left:0;}
+    .toolbar, main, .tabs, .top-panels{padding-left:16px; padding-right:16px;}
+    .cov-table{display:block; overflow-x:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div>
+    <div class="brand-row"><div class="mark"></div><h1>Modelo de Eventos — Egresados UdeA</h1></div>
+    <p>Fecha, ubicación, estrategia, aliados y presupuesto de los eventos que activan el modelo de relacionamiento con egresados.</p>
+    <div class="share-note">🔗 Tablero compartido: cualquiera con este enlace ve y edita la información</div>
+  </div>
+  <div class="header-stat" id="headerStat">Cargando…</div>
+</header>
+<div class="id-stripe"><span class="s1"></span><span class="s2"></span><span class="s3"></span></div>
+
+<div class="top-panels">
+  <div class="panel">
+    <div class="cal-header">
+      <button class="cal-nav" id="calPrev">‹</button>
+      <div class="cal-title" id="calTitle">—</div>
+      <button class="cal-nav" id="calNext">›</button>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">Actividad reciente</div>
+    <div id="feedList"></div>
+  </div>
+</div>
+
+<div class="banner" id="banner"></div>
+
+<div class="tabs">
+  <button class="tab-btn active" id="tabEventos">Eventos</button>
+  <button class="tab-btn" id="tabCobertura">Cobertura por unidad</button>
+</div>
+
+<div class="toolbar" id="toolbarEventos">
+  <select id="filterMicro" class="form-input"></select>
+  <select id="filterEstado" class="form-input"></select>
+  <select id="filterPrio" class="form-input"></select>
+  <span class="spacer"></span>
+  <span class="save-flash" id="saveFlash">Guardado ✓</span>
+  <button class="btn btn-secondary" id="exportBtn">⬇ Descargar CSV</button>
+  <button class="btn btn-primary" id="addBtn">+ Nuevo evento</button>
+</div>
+
+<div class="toolbar" id="toolbarCobertura" style="display:none;">
+  <select id="filterTipo" class="form-input">
+    <option value="Todos">Todos los tipos</option>
+    <option value="Facultad">Facultades</option>
+    <option value="Escuela">Escuelas</option>
+    <option value="Instituto">Institutos</option>
+    <option value="Corporación">Corporaciones</option>
+  </select>
+  <span class="spacer"></span>
+  <span class="save-flash" id="saveFlash2">Guardado ✓</span>
+</div>
+
+<main><div id="content"></div></main>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2 id="modalTitle">Nuevo evento</h2>
+    <div class="modal-sub">Los campos quedan guardados para todos al presionar "Guardar evento".</div>
+    <form id="eventForm">
+      <fieldset>
+        <legend>Identificación</legend>
+        <div class="field-row full"><div><label>Nombre del evento</label><input type="text" name="evento"></div></div>
+        <div class="field-row">
+          <div><label>Fecha (texto libre)</label><input type="text" name="fecha" placeholder="ej. 15 oct 2026 o Por definir"></div>
+          <div><label>Hora</label><input type="text" name="hora" placeholder="ej. 4:00 p.m."></div>
+        </div>
+        <div class="field-row">
+          <div><label>Fecha inicio (para el calendario, opcional)</label><input type="date" name="fechaInicio"></div>
+          <div><label>Fecha fin (si dura varios días)</label><input type="date" name="fechaFin"></div>
+        </div>
+        <div class="field-row">
+          <div><label>Duración (opcional)</label><input type="text" name="duracion" placeholder="ej. 3 horas"></div>
+          <div><label>Modalidad</label><select name="modalidad" class="form-input"><option>Presencial</option><option>Virtual</option><option>Híbrido</option><option>Por definir</option></select></div>
+        </div>
+        <div class="field-row full"><div><label>Ubicación</label><input type="text" name="ubicacion" placeholder="ej. UPB, Medellín"></div></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Estrategia</legend>
+        <div class="field-row">
+          <div><label>Microcomunidad / segmento</label>
+            <select name="microcomunidad" class="form-input">
+              <option>Red de egresados emprendedores</option><option>Red de mentores UdeA</option><option>Red de egresados en regiones</option>
+              <option>Red de empleabilidad y desarrollo profesional</option><option>Relacionamiento</option>
+              <option>Red de egresados investigadores / académicos</option><option>Comunidad de egresados por cohorte</option>
+              <option>Vitrina institucional</option><option>Comunidad de impacto social</option><option>Otra</option>
+            </select>
+          </div>
+          <div><label>Enfocado a egresados en</label>
+            <select name="etapaCiclo" class="form-input">
+              <option>Transición (0-2 años)</option><option>Inserción y crecimiento (2-10 años)</option>
+              <option>Consolidación y liderazgo (10-25 años)</option><option>Legado (+25 años)</option><option>Transversal</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row full">
+          <div><label>Objetivo estratégico</label>
+            <select name="objetivo" id="objetivoSelect" class="form-input">
+              <option>Empleabilidad y desarrollo profesional</option><option>Activar microcomunidad prioritaria</option>
+              <option>Atender punto crítico del ciclo de vida (transición o consolidación)</option><option>Formación continua / actualización</option>
+              <option>Redes y networking</option><option>Reconocimiento y visibilidad de trayectoria</option>
+              <option>Impacto social / territorial</option><option>Fortalecimiento de datos (SIE / CRM)</option>
+              <option value="Otro">Otro (especificar)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row full" id="objetivoOtroWrap" style="display:none;"><div><label>Especifica el objetivo</label><input type="text" id="objetivoOtroInput"></div></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Alianzas y recursos</legend>
+        <div class="field-row full">
+          <label>Aliados internos (unidades académicas)</label>
+          <div class="chip-list" id="aliadosChipList"></div>
+          <select id="aliadosAddSelect" class="form-input"></select>
+          <div class="otro-inline" id="aliadosOtroInlineWrap" style="display:none;">
+            <input type="text" id="aliadosOtroInlineInput" placeholder="Nombre de la unidad">
+            <button type="button" class="btn btn-secondary" id="aliadosOtroAddBtn">Agregar</button>
+          </div>
+          <div id="enlaceInfoBox" style="margin-top:8px;"></div>
+        </div>
+        <div class="field-row">
+          <div><label>Aliados externos</label><input type="text" name="aliadosExternos" placeholder="ej. FUA, Comfama"></div>
+          <div><label>Presupuesto estimado</label><input type="text" name="presupuesto" placeholder="ej. $8.000.000 o Por definir"></div>
+        </div>
+        <div class="field-row full"><div><label>Fuente de financiación</label><input type="text" name="fuenteFinanciacion"></div></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Ejecución</legend>
+        <div class="field-row">
+          <div><label>Responsable / dinamizador</label><input type="text" name="responsable"></div>
+          <div><label>Canal de convocatoria</label><input type="text" name="canalConvocatoria"></div>
+        </div>
+        <div class="field-row">
+          <div><label>Estado</label><select name="estado" class="form-input"><option>Planeación</option><option>Confirmado</option><option>Ejecutado</option></select></div>
+          <div><label>Prioridad</label><select name="prioridad" class="form-input"><option>Alta</option><option>Media</option><option>Baja</option></select></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Medición</legend>
+        <div class="field-row">
+          <div><label>Mecanismo de captura de datos</label><input type="text" name="mecanismoCaptura"></div>
+          <div><label>Meta de participación</label><input type="text" name="metaParticipacion"></div>
+        </div>
+        <div class="field-row full"><div><label>Observaciones / riesgos</label><textarea name="observaciones"></textarea></div></div>
+      </fieldset>
+
+      <div class="modal-actions">
+        <button type="button" class="btn" id="cancelBtn">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar evento</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+/* ---------------- Supabase ---------------- */
+const SUPABASE_URL = 'https://ubmydwntlspfftpfgeyy.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_kK7BlZ0a81sPnbe5TpgNvg_y1htsw1r';
+function sbHeaders(extra){ return Object.assign({'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'}, extra||{}); }
+
+function toDb(ev){
+  return {
+    evento: ev.evento||'', fecha: ev.fecha||'', hora: ev.hora||'',
+    fecha_inicio: ev.fechaInicio ? ev.fechaInicio : null, fecha_fin: ev.fechaFin ? ev.fechaFin : null,
+    duracion: ev.duracion||'', modalidad: ev.modalidad||'', ubicacion: ev.ubicacion||'',
+    microcomunidad: ev.microcomunidad||'', etapa_ciclo: ev.etapaCiclo||'', objetivo: ev.objetivo||'',
+    aliados_internos: ev.aliadosInternos||[], aliados_externos: ev.aliadosExternos||'',
+    presupuesto: ev.presupuesto||'', fuente_financiacion: ev.fuenteFinanciacion||'',
+    responsable: ev.responsable||'', canal_convocatoria: ev.canalConvocatoria||'', estado: ev.estado||'Planeación',
+    mecanismo_captura: ev.mecanismoCaptura||'', meta_participacion: ev.metaParticipacion||'',
+    prioridad: ev.prioridad||'Media', observaciones: ev.observaciones||''
+  };
+}
+function fromDb(row){
+  return {
+    id: row.id, evento: row.evento||'', fecha: row.fecha||'', hora: row.hora||'',
+    fechaInicio: row.fecha_inicio||'', fechaFin: row.fecha_fin||'', duracion: row.duracion||'',
+    modalidad: row.modalidad||'', ubicacion: row.ubicacion||'', microcomunidad: row.microcomunidad||'',
+    etapaCiclo: row.etapa_ciclo||'', objetivo: row.objetivo||'',
+    aliadosInternos: Array.isArray(row.aliados_internos)?row.aliados_internos:[],
+    aliadosExternos: row.aliados_externos||'', presupuesto: row.presupuesto||'', fuenteFinanciacion: row.fuente_financiacion||'',
+    responsable: row.responsable||'', canalConvocatoria: row.canal_convocatoria||'', estado: row.estado||'Planeación',
+    mecanismoCaptura: row.mecanismo_captura||'', metaParticipacion: row.meta_participacion||'',
+    prioridad: row.prioridad||'Media', observaciones: row.observaciones||''
+  };
+}
+function actFromDb(row){ return {id:row.id, tipo:row.tipo, evento:row.evento, unidad:row.unidad, marcadoPor:row.marcado_por, fecha:row.fecha}; }
+
+async function fetchEventos(){
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/eventos?select=*&order=created_at.asc`, {headers: sbHeaders()});
+  if(!r.ok) throw new Error('fetch eventos '+r.status);
+  return (await r.json()).map(fromDb);
+}
+async function fetchActividad(){
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/actividad?select=*&order=fecha.desc`, {headers: sbHeaders()});
+  if(!r.ok) throw new Error('fetch actividad '+r.status);
+  return (await r.json()).map(actFromDb);
+}
+async function insertEvento(ev){
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/eventos`, {method:'POST', headers: sbHeaders({'Prefer':'return=representation'}), body: JSON.stringify({id:ev.id, ...toDb(ev)})});
+  if(!r.ok) throw new Error('insert evento '+r.status+' '+(await r.text()));
+  return fromDb((await r.json())[0]);
+}
+async function updateEvento(id, ev){
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/eventos?id=eq.${encodeURIComponent(id)}`, {method:'PATCH', headers: sbHeaders({'Prefer':'return=representation'}), body: JSON.stringify({...toDb(ev), updated_at:new Date().toISOString()})});
+  if(!r.ok) throw new Error('update evento '+r.status+' '+(await r.text()));
+  return fromDb((await r.json())[0]);
+}
+async function deleteEventoRemote(id){
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/eventos?id=eq.${encodeURIComponent(id)}`, {method:'DELETE', headers: sbHeaders()});
+  if(!r.ok) throw new Error('delete evento '+r.status);
+}
+async function insertActividad(entry){
+  const row = {id:'a'+Date.now()+Math.random().toString(36).slice(2,6), tipo:entry.tipo, evento:entry.evento||null, unidad:entry.unidad||null, marcado_por:entry.marcadoPor||null};
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/actividad`, {method:'POST', headers: sbHeaders({'Prefer':'return=representation'}), body: JSON.stringify(row)});
+  if(!r.ok) throw new Error('insert actividad '+r.status+' '+(await r.text()));
+  return actFromDb((await r.json())[0]);
+}
+
+const MICRO_OPTS = ['Todas las microcomunidades','Red de egresados emprendedores','Red de mentores UdeA','Red de egresados en regiones','Red de empleabilidad y desarrollo profesional','Relacionamiento','Red de egresados investigadores / académicos','Comunidad de egresados por cohorte','Vitrina institucional','Comunidad de impacto social','Otra'];
+const ESTADO_OPTS = ['Todos los estados','Planeación','Confirmado','Ejecutado'];
+const PRIO_OPTS = ['Todas las prioridades','Alta','Media','Baja'];
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const DIAS = ['L','M','X','J','V','S','D'];
+
+const UNIDADES = [
+  {tipo:'Facultad', nombre:'Facultad de Artes', enlace:'Marcela Trujillo Quintero', correo:'egresados.artes@udea.edu.co'},
+  {tipo:'Facultad', nombre:'Facultad de Ciencias Agrarias', enlace:'Alejandro Strauch Salazar', correo:'extensionfca@udea.edu.co'},
+  {tipo:'Facultad', nombre:'Facultad de Ciencias Económicas', enlace:'Daniel Cardona', correo:'daniel.cardonav@udea.edu.co'},
+  {tipo:'Facultad', nombre:'Facultad de Ciencias Exactas y Naturales', enlace:'Juana Alejandra Gómez Uribe', correo:'juanaa.gomez@udea.edu.co'},
+  {tipo:'Facultad', nombre:'Facultad de Ciencias Farmacéuticas y Alimentarias', enlace:'Mónica Ledezma', correo:'monica.ledezma@udea.edu.co'},
+  {tipo:'Facultad', nombre:'Facultad de Ciencias Sociales y Humanas', enlace:'Mariana Villegas Serna', correo:'egresados.fcsh@udea.edu.co'},
+  {tipo:'Facultad', nombre:'Facultad de Comunicaciones y Filología', enlace:'Lizeth Moreno Taborda', correo:'egresadoscomunicaciones@udea.edu.co'},
+  {tipo:'Facultad', nombre:'Facultad de Derecho y Ciencias Políticas', enlace:'Lina María Noreña Castrillón', correo:'extension.fdcp@udea.edu.co'},
+  {tipo:'Facultad', nombre:'Facultad de Educación', enlace:'Jackeline Duarte', correo:'jakeline.duarte@udea.edu.co'},
+  {tipo:'Facultad', nombre:'Facultad de Enfermería', enlace:'Pamela López', correo:'cextension.fenf@udea.edu.co'},
+  {tipo:'Facultad', nombre:'Facultad de Ingeniería', enlace:'Catalina Orrego Zapata', correo:'egresadosingenieria@udea.edu.co'},
+  {tipo:'Facultad', nombre:'Facultad de Medicina', enlace:'Camilo Gutiérrez', correo:'egresados.med@udea.edu.co'},
+  {tipo:'Facultad', nombre:'Facultad de Odontología', enlace:'Erica Janneth Taborda González', correo:'egresadosodontologia@udea.edu.co'},
+  {tipo:'Facultad', nombre:'Facultad Nacional de Salud Pública', enlace:'Astrid Mira Hincapié', correo:'egresadosfnsp@udea.edu.co'},
+  {tipo:'Escuela', nombre:'Escuela de Idiomas', enlace:'Ana María Agudelo', correo:'egresadosidiomas@udea.edu.co'},
+  {tipo:'Escuela', nombre:'Escuela Interamericana de Bibliotecología', enlace:'Katherinne Arenas', correo:'comunica.eib@udea.edu.co'},
+  {tipo:'Escuela', nombre:'Escuela de Microbiología', enlace:'Laura Victoria Castrillón Cano', correo:'laura.castrillon@udea.edu.co'},
+  {tipo:'Escuela', nombre:'Escuela de Nutrición y Dietética', enlace:'María Isabel Calle Díaz', correo:'egresadosnyd@gmail.com'},
+  {tipo:'Instituto', nombre:'Instituto de Filosofía', enlace:'Andrés Esteban Acosta Zapata', correo:'extensionfilosofia@udea.edu.co'},
+  {tipo:'Instituto', nombre:'Instituto Universitario de Educación Física', enlace:'Felipe Hoyos Pinzón', correo:'egresadosedufisica@udea.edu.co'},
+  {tipo:'Instituto', nombre:'Instituto de Estudios Políticos', enlace:'Alejandra Morales', correo:'extensionepoliticos@udea.edu.co'},
+  {tipo:'Instituto', nombre:'Instituto de Estudios Regionales (INER)', enlace:'Simón Palacio Zapata', correo:'posgrado.siner@udea.edu.co'},
+  {tipo:'Corporación', nombre:'Corporación Académica Ciencias Básicas Biomédicas', enlace:'Fred Danilo Palacio', correo:'extensionbiomedicas@udea.edu.co'}
+];
+function findUnidad(nombre){ return UNIDADES.find(u => u.nombre === nombre) || null; }
+
+const FIELD_ORDER = ['evento','fecha','hora','fechaInicio','fechaFin','duracion','modalidad','ubicacion','microcomunidad','etapaCiclo','objetivo','aliadosInternos','aliadosExternos','presupuesto','fuenteFinanciacion','responsable','canalConvocatoria','estado','mecanismoCaptura','metaParticipacion','prioridad','observaciones'];
+const CSV_HEADERS = ['Evento','Fecha','Hora','Fecha inicio','Fecha fin','Duración','Modalidad','Ubicación','Microcomunidad / Segmento','Enfocado a egresados en','Objetivo','Aliados internos','Aliados externos','Presupuesto estimado','Fuente de financiación','Responsable','Canal de convocatoria','Estado','Mecanismo de captura de datos','Meta de participación','Prioridad','Observaciones'];
+
+let events = [];
+let activityLog = [];
+let editingId = null;
+let currentAliados = [];
+let currentView = 'eventos';
+let calYear, calMonth;
+
+const contentEl = document.getElementById('content');
+const bannerEl = document.getElementById('banner');
+const overlayEl = document.getElementById('overlay');
+const formEl = document.getElementById('eventForm');
+
+function esc(s){ return (s||'').toString().replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function showBanner(msg){ bannerEl.textContent = msg; bannerEl.classList.add('show'); }
+function flashSaved(){ ['saveFlash','saveFlash2'].forEach(id=>{ const el=document.getElementById(id); if(el){ el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1400); } }); }
+function formatFecha(iso){ return new Date(iso).toLocaleDateString('es-CO'); }
+function formatRelativo(iso){
+  const d=new Date(iso), diffH=(new Date()-d)/3600000;
+  if(diffH<1) return 'hace menos de una hora';
+  if(diffH<24) return 'hace '+Math.floor(diffH)+' h';
+  const diffD=Math.floor(diffH/24);
+  if(diffD<7) return 'hace '+diffD+' día'+(diffD>1?'s':'');
+  return d.toLocaleDateString('es-CO',{day:'numeric',month:'short',year:'numeric'});
+}
+
+function populateSelect(el, opts){ el.innerHTML = opts.map(o=>`<option value="${o}">${o}</option>`).join(''); }
+populateSelect(document.getElementById('filterMicro'), MICRO_OPTS);
+populateSelect(document.getElementById('filterEstado'), ESTADO_OPTS);
+populateSelect(document.getElementById('filterPrio'), PRIO_OPTS);
+
+function populateAliadosAddSelect(){
+  const sel = document.getElementById('aliadosAddSelect');
+  const grupos = ['Facultad','Escuela','Instituto','Corporación'];
+  let html = '<option value="">+ Agregar unidad académica…</option>';
+  grupos.forEach(tipo=>{
+    const items = UNIDADES.filter(u=>u.tipo===tipo);
+    if(items.length===0) return;
+    html += `<optgroup label="${tipo}es">` + items.map(u=>`<option value="${u.nombre}">${u.nombre}</option>`).join('') + `</optgroup>`;
+  });
+  html += `<option value="Otro">Otra unidad (especificar)</option>`;
+  sel.innerHTML = html;
+}
+populateAliadosAddSelect();
+
+/* ---------------- carga inicial ---------------- */
+async function loadAll(){
+  contentEl.innerHTML = '<div class="loading">Cargando tablero compartido…</div>';
+  try{ events = await fetchEventos(); }
+  catch(e){ console.error(e); events = []; showBanner('No se pudo conectar con la base de datos. Verifica tu conexión e inténtalo de nuevo.'); }
+  try{ activityLog = await fetchActividad(); }
+  catch(e){ console.error(e); activityLog = []; }
+  initCalendarDefault();
+  refreshUI();
+}
+function refreshUI(){ render(); renderFeed(); renderCalendar(); updateHeaderStat(); }
+
+/* ---------------- tabs ---------------- */
+document.getElementById('tabEventos').addEventListener('click', ()=>switchView('eventos'));
+document.getElementById('tabCobertura').addEventListener('click', ()=>switchView('cobertura'));
+function switchView(v){
+  currentView = v;
+  document.getElementById('tabEventos').classList.toggle('active', v==='eventos');
+  document.getElementById('tabCobertura').classList.toggle('active', v==='cobertura');
+  document.getElementById('toolbarEventos').style.display = v==='eventos' ? 'flex':'none';
+  document.getElementById('toolbarCobertura').style.display = v==='cobertura' ? 'flex':'none';
+  render();
+}
+function render(){ currentView==='eventos' ? renderEventos() : renderCobertura(); }
+
+/* ---------------- header stat + feed ---------------- */
+function updateHeaderStat(){
+  const cov = computeCobertura('Todos');
+  const activas = cov.filter(r=>r.estado!=='red').length;
+  document.getElementById('headerStat').textContent = `${activas} de ${UNIDADES.length} unidades activas`;
+}
+function renderFeed(){
+  const list = document.getElementById('feedList');
+  const items = activityLog.slice().sort((a,b)=>b.fecha.localeCompare(a.fecha)).slice(0,8);
+  if(items.length===0){ list.innerHTML='<div class="feed-empty">Sin actividad todavía.</div>'; return; }
+  list.innerHTML = items.map(a=>{
+    let text='';
+    if(a.tipo==='evento_creado') text = `Se registró <b>${esc(a.evento)}</b>`;
+    else if(a.tipo==='evento_editado') text = `Se actualizó <b>${esc(a.evento)}</b>`;
+    else if(a.tipo==='evento_eliminado') text = `Se eliminó <b>${esc(a.evento)}</b>`;
+    else if(a.tipo==='contacto') text = `<b>${esc(a.unidad)}</b> fue marcada como contactada${a.evento && a.evento!=='Contacto general' ? ' para '+esc(a.evento) : ''}`;
+    return `<div class="feed-item">${text}<div class="feed-date tabular">${formatRelativo(a.fecha)}</div></div>`;
+  }).join('');
+}
+
+/* ---------------- calendario ---------------- */
+function initCalendarDefault(){
+  const todayIso = new Date().toISOString().slice(0,10);
+  const upcoming = events.filter(e=>e.fechaInicio && e.fechaInicio>=todayIso).sort((a,b)=>a.fechaInicio.localeCompare(b.fechaInicio));
+  const ref = upcoming.length ? new Date(upcoming[0].fechaInicio+'T00:00:00') : new Date();
+  calYear = ref.getFullYear(); calMonth = ref.getMonth();
+}
+function getDayMap(){
+  const map = {};
+  events.forEach(ev=>{
+    if(!ev.fechaInicio) return;
+    const start = new Date(ev.fechaInicio+'T00:00:00');
+    const end = ev.fechaFin ? new Date(ev.fechaFin+'T00:00:00') : start;
+    if(isNaN(start) || isNaN(end)) return;
+    let d = new Date(start), guard=0;
+    while(d<=end && guard<60){ const key=d.toISOString().slice(0,10); (map[key]=map[key]||[]).push(ev); d.setDate(d.getDate()+1); guard++; }
+  });
+  return map;
+}
+function renderCalendar(){
+  document.getElementById('calTitle').textContent = MESES[calMonth].charAt(0).toUpperCase()+MESES[calMonth].slice(1)+' '+calYear;
+  const dayMap = getDayMap();
+  const first = new Date(calYear, calMonth, 1);
+  let startOffset = first.getDay()-1; if(startOffset<0) startOffset=6;
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const todayKey = new Date().toISOString().slice(0,10);
+  let html = DIAS.map(d=>`<div class="cal-daylabel">${d}</div>`).join('');
+  for(let i=0;i<startOffset;i++) html += `<div class="cal-cell empty"></div>`;
+  for(let day=1; day<=daysInMonth; day++){
+    const key = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const evs = dayMap[key] || [];
+    const pills = evs.slice(0,2).map(e=>`<div class="cal-pill prio-${e.prioridad}" data-open="${e.id}" title="${esc(e.evento)}">${esc(e.evento)}</div>`).join('');
+    const more = evs.length>2 ? `<div class="cal-more">+${evs.length-2} más</div>` : '';
+    html += `<div class="cal-cell ${key===todayKey?'today':''}"><div class="cal-daynum">${day}</div>${pills}${more}</div>`;
+  }
+  document.getElementById('calGrid').innerHTML = html;
+  document.querySelectorAll('[data-open]').forEach(el=>el.addEventListener('click', ()=>openForm(el.dataset.open)));
+}
+document.getElementById('calPrev').addEventListener('click', ()=>{ calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); });
+document.getElementById('calNext').addEventListener('click', ()=>{ calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCalendar(); });
+
+/* ---------------- eventos view ---------------- */
+function getFilteredEvents(){
+  const micro=document.getElementById('filterMicro').value, estado=document.getElementById('filterEstado').value, prio=document.getElementById('filterPrio').value;
+  return events.filter(ev=>(micro.startsWith('Todas')||ev.microcomunidad===micro)&&(estado.startsWith('Todos')||ev.estado===estado)&&(prio.startsWith('Todas')||ev.prioridad===prio));
+}
+function renderEventos(){
+  const list = getFilteredEvents();
+  if(list.length===0){ contentEl.innerHTML='<div class="empty">No hay eventos que coincidan con estos filtros.</div>'; return; }
+  contentEl.innerHTML = `<div class="grid">${list.map(cardHTML).join('')}</div>`;
+  contentEl.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openForm(b.dataset.edit)));
+  contentEl.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>deleteEvent(b.dataset.del)));
+}
+function cardHTML(ev){
+  const aliados = Array.isArray(ev.aliadosInternos)?ev.aliadosInternos:[];
+  const contactLines = aliados.map(n=>{ const u=findUnidad(n); return u?`👤 ${esc(u.enlace)} (${esc(n)})`:`👤 ${esc(n)}`; }).join('<br>');
+  return `
+  <div class="card prio-${ev.prioridad}">
+    <h3>${esc(ev.evento)}</h3>
+    <div class="meta">📅 ${esc(ev.fecha)} ${ev.hora && ev.hora!=='—' ? '· '+esc(ev.hora):''}${ev.duracion?' · '+esc(ev.duracion):''}<br>📍 ${esc(ev.ubicacion)||'Ubicación por definir'}</div>
+    ${contactLines ? `<div class="card-contact-list">${contactLines}</div>` : ''}
+    <div class="chips">
+      <span class="chip"><span class="prio-dot ${ev.prioridad}"></span>${esc(ev.prioridad)}</span>
+      <span class="chip estado-${esc(ev.estado)}">${esc(ev.estado)}</span>
+      <span class="chip">${esc(ev.microcomunidad)}</span>
+    </div>
+    <div class="card-actions"><button class="edit-btn" data-edit="${ev.id}">Ver / Editar</button><button class="del-btn" data-del="${ev.id}">Eliminar</button></div>
+  </div>`;
+}
+
+/* ---------------- form: aliados internos (multi) ---------------- */
+function renderAliadosChips(){
+  const list = document.getElementById('aliadosChipList');
+  list.innerHTML = currentAliados.map(n=>`<span class="unit-chip">${esc(n)}<button type="button" data-remove="${esc(n)}">×</button></span>`).join('');
+  list.querySelectorAll('[data-remove]').forEach(b=>b.addEventListener('click', ()=>{ currentAliados = currentAliados.filter(n=>n!==b.dataset.remove); renderAliadosChips(); }));
+  renderEnlaceInfoBoxes();
+}
+function renderEnlaceInfoBoxes(){
+  const box = document.getElementById('enlaceInfoBox');
+  const eventoNombre = formEl.elements['evento'].value.trim() || 'este evento';
+  box.innerHTML = currentAliados.map(n=>{
+    const u = findUnidad(n);
+    if(!u) return `<div class="enlace-info">${esc(n)} — unidad personalizada, sin enlace registrado.</div>`;
+    const subject = encodeURIComponent('Invitación — '+eventoNombre);
+    const body = encodeURIComponent(`Hola ${u.enlace},\n\nTe escribo desde la División de Egresados para invitar a ${u.nombre} a participar en "${eventoNombre}".\n\nTe cuento los detalles y quedo atento a tu confirmación.\n\nSaludos.`);
+    return `<div class="enlace-info">👤 <b>${esc(u.enlace)}</b> · ${esc(u.correo)} (${esc(n)})<br><a class="mailto-btn" href="mailto:${u.correo}?subject=${subject}&body=${body}">✉ Redactar invitación</a></div>`;
+  }).join('');
+}
+document.getElementById('aliadosAddSelect').addEventListener('change', function(){
+  const val=this.value; if(!val) return;
+  if(val==='Otro'){ document.getElementById('aliadosOtroInlineWrap').style.display=''; this.value=''; return; }
+  if(!currentAliados.includes(val)) currentAliados.push(val);
+  this.value=''; renderAliadosChips();
+});
+document.getElementById('aliadosOtroAddBtn').addEventListener('click', ()=>{
+  const input = document.getElementById('aliadosOtroInlineInput'); const val = input.value.trim();
+  if(val && !currentAliados.includes(val)) currentAliados.push(val);
+  input.value=''; document.getElementById('aliadosOtroInlineWrap').style.display='none'; renderAliadosChips();
+});
+document.querySelector('[name="evento"]').addEventListener('input', renderEnlaceInfoBoxes);
+
+document.getElementById('objetivoSelect').addEventListener('change', function(){
+  document.getElementById('objetivoOtroWrap').style.display = this.value==='Otro' ? '' : 'none';
+});
+
+/* ---------------- open/close/submit ---------------- */
+function openForm(id){
+  editingId = id || null;
+  const ev = id ? events.find(e=>e.id===id) : {};
+  document.getElementById('modalTitle').textContent = id ? 'Editar evento' : 'Nuevo evento';
+  FIELD_ORDER.forEach(f=>{ const el=formEl.elements[f]; if(el) el.value = ev[f] || (el.tagName==='SELECT'?el.options[0].value:''); });
+  const objetivoSelect = document.getElementById('objetivoSelect');
+  const presetObjetivos = Array.from(objetivoSelect.options).map(o=>o.value);
+  if(ev.objetivo && !presetObjetivos.includes(ev.objetivo)){ objetivoSelect.value='Otro'; document.getElementById('objetivoOtroInput').value=ev.objetivo; document.getElementById('objetivoOtroWrap').style.display=''; }
+  else{ document.getElementById('objetivoOtroInput').value=''; document.getElementById('objetivoOtroWrap').style.display='none'; }
+  currentAliados = Array.isArray(ev.aliadosInternos) ? ev.aliadosInternos.slice() : [];
+  document.getElementById('aliadosOtroInlineWrap').style.display='none';
+  renderAliadosChips();
+  overlayEl.classList.add('show');
+}
+function closeForm(){ overlayEl.classList.remove('show'); formEl.reset(); editingId=null; currentAliados=[]; renderAliadosChips(); }
+document.getElementById('addBtn').addEventListener('click', ()=>openForm(null));
+document.getElementById('cancelBtn').addEventListener('click', closeForm);
+overlayEl.addEventListener('click', (e)=>{ if(e.target===overlayEl) closeForm(); });
+
+formEl.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  try{
+    const data = {};
+    FIELD_ORDER.forEach(f=>{ if(formEl.elements[f]) data[f] = formEl.elements[f].value.trim(); });
+    if(!data.evento){ showBanner('Escribe un nombre para el evento antes de guardar.'); return; }
+    if(data.objetivo==='Otro'){ data.objetivo = document.getElementById('objetivoOtroInput').value.trim() || 'Otro (sin especificar)'; }
+    data.aliadosInternos = currentAliados.slice();
+    const wasEdit = !!editingId;
+    let saved;
+    if(editingId){ saved = await updateEvento(editingId, data); const idx = events.findIndex(ev=>ev.id===editingId); events[idx] = saved; }
+    else{ data.id = 'ev'+Date.now(); saved = await insertEvento(data); events.push(saved); }
+    flashSaved();
+    const actEntry = await insertActividad({tipo: wasEdit ? 'evento_editado' : 'evento_creado', evento: saved.evento});
+    activityLog.push(actEntry);
+    initCalendarDefault(); refreshUI(); closeForm();
+  }catch(err){
+    console.error('Error al guardar el evento:', err);
+    showBanner('Ocurrió un error inesperado al guardar. Intenta de nuevo; si persiste, avísale a Camilo.');
+  }
+});
+async function deleteEvent(id){
+  if(!confirm('¿Eliminar este evento del tablero compartido? Esta acción no se puede deshacer.')) return;
+  const ev = events.find(e=>e.id===id);
+  try{
+    await deleteEventoRemote(id);
+    events = events.filter(e=>e.id!==id);
+    if(ev){ const actEntry = await insertActividad({tipo:'evento_eliminado', evento:ev.evento}); activityLog.push(actEntry); }
+    refreshUI();
+  }catch(err){ console.error(err); showBanner('No se pudo eliminar el evento. Intenta de nuevo.'); }
+}
+['filterMicro','filterEstado','filterPrio'].forEach(id=>document.getElementById(id).addEventListener('change', render));
+document.getElementById('filterTipo').addEventListener('change', render);
+
+/* ---------------- cobertura view ---------------- */
+function computeCobertura(tipoFiltro){
+  tipoFiltro = tipoFiltro || document.getElementById('filterTipo').value;
+  return UNIDADES.filter(u=>tipoFiltro==='Todos'||u.tipo===tipoFiltro).map(u=>{
+    const relacionados = events.filter(e=>Array.isArray(e.aliadosInternos)&&e.aliadosInternos.includes(u.nombre));
+    const confirmado = relacionados.some(e=>e.estado==='Confirmado'||e.estado==='Ejecutado');
+    const relEventNames = relacionados.map(e=>e.evento);
+    const contactoLogs = activityLog.filter(a=>a.tipo==='contacto' && a.unidad===u.nombre);
+    const relevantLogs = activityLog.filter(a=>(a.tipo==='contacto'&&a.unidad===u.nombre)||((a.tipo==='evento_creado'||a.tipo==='evento_editado')&&relEventNames.includes(a.evento))).sort((a,b)=>b.fecha.localeCompare(a.fecha));
+    let estado='red', label='Sin contacto';
+    if(confirmado){ estado='green'; label='Evento confirmado'; }
+    else if(contactoLogs.length>0){ estado='yellow'; label='Contactada'; }
+    return {...u, relacionados, ultimaActividad: relevantLogs[0]||null, estado, label};
+  });
+}
+function renderCobertura(){
+  const rows = computeCobertura();
+  if(rows.length===0){ contentEl.innerHTML='<div class="empty">No hay unidades que coincidan con este filtro.</div>'; return; }
+  contentEl.innerHTML = `
+  <table class="cov-table">
+    <thead><tr><th>Unidad</th><th>Enlace</th><th>Estado</th><th>Última actividad</th><th>Eventos asociados</th><th>Acciones</th></tr></thead>
+    <tbody>${rows.map(r=>`
+      <tr>
+        <td><div class="unit-name">${esc(r.nombre)}</div><div class="unit-type">${esc(r.tipo)}</div></td>
+        <td>${esc(r.enlace)}<br><span style="color:var(--text-muted);font-size:11px;">${esc(r.correo)}</span></td>
+        <td><span class="badge st-${r.estado}">${esc(r.label)}</span></td>
+        <td class="tabular">${r.ultimaActividad ? formatFecha(r.ultimaActividad.fecha) + (r.ultimaActividad.marcadoPor?' · '+esc(r.ultimaActividad.marcadoPor):'') : '—'}</td>
+        <td>${r.relacionados.length ? r.relacionados.map(e=>esc(e.evento)).join('<br>') : '—'}</td>
+        <td><div class="cov-actions"><button class="mailto-mini" data-mail="${esc(r.nombre)}">✉ Invitar</button><button class="confirm-mini" data-confirm="${esc(r.nombre)}">✓ Marcar contactada</button></div></td>
+      </tr>`).join('')}</tbody>
+  </table>`;
+  contentEl.querySelectorAll('[data-mail]').forEach(b=>b.addEventListener('click', ()=>invitarDesdeCobertura(b.dataset.mail)));
+  contentEl.querySelectorAll('[data-confirm]').forEach(b=>b.addEventListener('click', ()=>marcarContactada(b.dataset.confirm)));
+}
+function invitarDesdeCobertura(nombre){
+  const u = findUnidad(nombre); if(!u) return;
+  const relacionados = events.filter(e=>Array.isArray(e.aliadosInternos)&&e.aliadosInternos.includes(nombre));
+  const eventoRef = relacionados.length ? relacionados[0].evento : 'próximas actividades de la División de Egresados';
+  const subject = encodeURIComponent('Invitación — '+eventoRef);
+  const body = encodeURIComponent(`Hola ${u.enlace},\n\nTe escribo desde la División de Egresados en relación con "${eventoRef}".\n\nQuedo atento a tu respuesta.\n\nSaludos.`);
+  window.open(`mailto:${u.correo}?subject=${subject}&body=${body}`, '_blank');
+}
+async function marcarContactada(nombre){
+  const eventoRef = prompt('¿Para qué evento? (opcional; deja vacío si es un contacto general)', '') || 'Contacto general';
+  const quien = prompt('¿Quién confirma que se envió? (opcional)', '') || '';
+  try{
+    const actEntry = await insertActividad({tipo:'contacto', unidad:nombre, evento:eventoRef, marcadoPor:quien});
+    activityLog.push(actEntry);
+    refreshUI();
+  }catch(err){ console.error(err); showBanner('No se pudo guardar el registro de contacto.'); }
+}
+
+/* ---------------- export ---------------- */
+function exportCSV(){
+  const rows = [CSV_HEADERS.join(';')];
+  (currentView==='eventos' ? getFilteredEvents() : []).forEach(ev=>{
+    const row = FIELD_ORDER.map(f=>{
+      let raw = ev[f]; let val = Array.isArray(raw) ? raw.join(', ') : (raw||'').toString();
+      val = val.replace(/"/g,'""');
+      if(val.includes(';')||val.includes('"')||val.includes('\n')) val = `"${val}"`;
+      return val;
+    });
+    rows.push(row.join(';'));
+  });
+  const csv = '\uFEFF' + rows.join('\r\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='tablero-eventos-egresados-udea.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+document.getElementById('exportBtn').addEventListener('click', exportCSV);
+
+loadAll();
+</script>
+</body>
+</html>
