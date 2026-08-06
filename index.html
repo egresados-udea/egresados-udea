@@ -3,127 +3,205 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#014d28">
 <title>Tablero de Eventos — Egresados UdeA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,450;9..144,560;9..144,650;9..144,750&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --udea-green:#026937; --udea-green-dark:#014d28; --udea-lime:#93d500; --udea-orange:#f9a12c;
-    --udea-teal:#007297; --udea-teal-light:#3bbfad; --bg:#f5f6f3; --card-bg:#ffffff;
-    --text:#1b241d; --text-muted:#5c6b62; --border:#dfe3dc;
-    --prio-alta:#ef434d; --prio-media:#f9a12c; --prio-baja:#43b649;
-    --radius:8px; --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px;
-    --shadow:0 1px 2px rgba(2,105,55,0.05), 0 3px 10px rgba(2,105,55,0.05);
+    color-scheme: light;
+    --udea-green:#026937; --udea-green-dark:#014d28; --udea-green-deep:#012c18; --udea-green-forest:#0a4a2c;
+    --udea-lime:#93d500; --udea-lime-dark:#6ea300;
+    --udea-orange:#f9a12c;
+    --udea-teal:#007297; --udea-teal-light:#3bbfad; --udea-teal-deep:#00506a;
+    --bg:#f5f6f2; --card-bg:#ffffff; --surface-sunken:#eef1ea;
+    --green-50:#eef4ee; --green-100:#dcebde;
+    --text:#161f18; --text-muted:#5c6b62; --text-faint:#8a988f; --border:#dfe3dc; --border-strong:#c9d0c2;
+    --prio-alta:#d81f2c; --prio-media:#f9a12c; --prio-baja:#1c8a45;
+    --font-display:'Fraunces',Georgia,serif;
+    --font-body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    --radius-sm:6px; --radius:10px; --radius-lg:16px;
+    --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px;
+    --shadow-sm:0 1px 2px rgba(1,43,23,0.07);
+    --shadow:0 2px 8px rgba(1,43,23,0.06), 0 10px 26px -10px rgba(1,43,23,0.14);
+    --shadow-lg:0 20px 46px -14px rgba(1,43,23,0.28);
+    --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
   }
   *{box-sizing:border-box;}
-  body{margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased;}
+  body{margin:0; font-family:var(--font-body); background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; line-height:1.5;}
   .tabular{font-variant-numeric:tabular-nums;}
+  h1,h2,h3{font-family:var(--font-display); text-wrap:balance;}
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid var(--udea-teal); outline-offset:2px; border-radius:4px;
+  }
 
-  header.top{background:var(--udea-green-dark); color:#fff; padding:22px 24px 16px; display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap;}
-  .brand-row{display:flex; align-items:center; gap:10px; margin-bottom:6px;}
-  .mark{width:22px;height:22px; background:var(--udea-lime); transform:rotate(45deg); border-radius:5px; flex-shrink:0;}
-  header.top h1{margin:0; font-size:20px; font-weight:800; letter-spacing:-0.01em;}
-  header.top p{margin:2px 0 0 32px; font-size:13px; color:#cfe4d2; max-width:560px; line-height:1.5;}
-  .share-note{display:inline-flex; align-items:center; gap:6px; margin:12px 0 0 32px; padding:5px 10px; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.22); border-radius:20px; font-size:11.5px;}
-  .header-stat{align-self:center; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.25); border-radius:8px; padding:8px 14px; font-size:13px; font-weight:700; white-space:nowrap;}
+  /* ---------- header ---------- */
+  header.top{
+    position:relative; overflow:hidden;
+    background:linear-gradient(155deg, var(--udea-green-dark) 0%, var(--udea-green-deep) 80%);
+    color:#fff; padding:30px 28px 22px; display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap;
+  }
+  header.top::before{
+    content:''; position:absolute; top:-70px; right:-50px; width:260px; height:260px; border-radius:50%;
+    background:radial-gradient(circle, rgba(147,213,0,0.18), transparent 70%); pointer-events:none;
+  }
+  header.top::after{
+    content:''; position:absolute; bottom:-90px; left:20%; width:220px; height:220px; border-radius:50%;
+    background:radial-gradient(circle, rgba(59,191,173,0.14), transparent 72%); pointer-events:none;
+  }
+  header.top > *{position:relative;}
+  .brand-row{display:flex; align-items:center; gap:12px; margin-bottom:8px;}
+  .mark{width:32px; height:28px; display:flex; align-items:flex-end; gap:3px; flex-shrink:0;}
+  .mark span{flex:1; border-radius:3px 3px 1px 1px;}
+  .mark span:nth-child(1){height:52%; background:var(--udea-lime);}
+  .mark span:nth-child(2){height:82%; background:var(--udea-orange);}
+  .mark span:nth-child(3){height:100%; background:var(--udea-teal-light);}
+  header.top h1{margin:0; font-size:23px; font-weight:650; letter-spacing:-0.01em;}
+  header.top p{margin:6px 0 0 44px; font-size:13px; color:#cfe4d2; max-width:560px; line-height:1.6;}
+  .share-note{display:inline-flex; align-items:center; gap:6px; margin:14px 0 0 44px; padding:6px 12px; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.22); border-radius:20px; font-size:11.5px;}
+  .header-stats{display:flex; flex-direction:column; gap:8px; align-items:flex-end;}
+  .header-stat{align-self:flex-end; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.25); border-radius:8px; padding:8px 14px; font-size:13px; font-weight:700; white-space:nowrap; font-variant-numeric:tabular-nums;}
+  .header-stat-accent{background:rgba(147,213,0,0.22); border-color:rgba(147,213,0,0.5); color:#eaffb0;}
   .id-stripe{display:flex; height:5px;} .id-stripe span{flex:1;}
   .id-stripe .s1{background:var(--udea-lime);} .id-stripe .s2{background:var(--udea-orange);} .id-stripe .s3{background:var(--udea-teal-light);}
 
-  .top-panels{display:grid; grid-template-columns:1.6fr 1fr; gap:16px; padding:18px 24px; background:var(--card-bg); border-bottom:1px solid var(--border);}
-  .panel{border:1px solid var(--border); border-radius:var(--radius); background:#fff; padding:14px;}
-  .panel-title{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--udea-teal); margin-bottom:10px;}
-  .cal-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;}
-  .cal-title{font-size:13.5px; font-weight:700;}
-  .cal-nav{background:none; border:1px solid var(--border); border-radius:6px; width:26px; height:26px; cursor:pointer; color:var(--udea-teal); font-weight:800;}
-  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:3px;}
-  .cal-daylabel{font-size:10px; text-align:center; color:var(--text-muted); font-weight:700; padding-bottom:3px;}
-  .cal-cell{min-height:56px; border:1px solid var(--border); border-radius:5px; padding:3px; font-size:10px; background:#fbfcfa;}
+  /* ---------- top panels ---------- */
+  .top-panels{display:grid; grid-template-columns:1.6fr 1fr; gap:16px; padding:20px 24px; background:var(--card-bg); border-bottom:1px solid var(--border);}
+  .panel{border:1px solid var(--border); border-radius:var(--radius); background:#fff; padding:16px;}
+  .panel-title{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:var(--udea-teal-deep); margin-bottom:12px;}
+  .cal-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;}
+  .cal-title{font-family:var(--font-display); font-size:15.5px; font-weight:600;}
+  .cal-nav{background:none; border:1px solid var(--border); border-radius:6px; width:27px; height:27px; cursor:pointer; color:var(--udea-teal); font-weight:800; transition:background-color .15s var(--ease), border-color .15s var(--ease);}
+  .cal-nav:hover{background:var(--green-50); border-color:var(--udea-teal);}
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px;}
+  .cal-daylabel{font-size:10px; text-align:center; color:var(--text-faint); font-weight:700; padding-bottom:4px; letter-spacing:.03em;}
+  .cal-cell{min-height:58px; border:1px solid var(--border); border-radius:6px; padding:4px; font-size:10px; background:#fbfcfa;}
   .cal-cell.empty{border:none; background:transparent;}
-  .cal-cell.today{border-color:var(--udea-teal); background:#eaf6f8;}
-  .cal-daynum{font-size:10.5px; font-weight:700; color:var(--text-muted); margin-bottom:2px;}
-  .cal-pill{border-radius:4px; padding:1px 4px; margin-bottom:2px; color:#fff; font-weight:700; font-size:9px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer;}
-  .cal-pill.prio-Alta{background:var(--prio-alta);} .cal-pill.prio-Media{background:var(--prio-media);} .cal-pill.prio-Baja{background:var(--prio-baja);}
+  .cal-cell.today{border-color:var(--udea-teal); background:#eaf6f8; box-shadow:inset 0 0 0 1px var(--udea-teal);}
+  .cal-daynum{font-size:10.5px; font-weight:700; color:var(--text-muted); margin-bottom:3px; font-variant-numeric:tabular-nums;}
+  .cal-pill{border-radius:4px; padding:1px 5px; margin-bottom:2px; font-weight:700; font-size:9px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer; transition:transform .12s var(--ease), box-shadow .12s var(--ease);}
+  .cal-pill:hover{transform:translateY(-1px); box-shadow:0 2px 6px rgba(1,43,23,0.22);}
+  .cal-pill.prio-Alta{background:var(--prio-alta); color:#fff;}
+  .cal-pill.prio-Media{background:var(--prio-media); color:#5c3a00;}
+  .cal-pill.prio-Baja{background:var(--prio-baja); color:#fff;}
   .cal-more{font-size:9px; color:var(--text-muted); font-weight:700;}
-  .feed-item{border-bottom:1px dashed var(--border); padding:7px 0; font-size:12px; line-height:1.5;}
+  .feed-item{border-bottom:1px dashed var(--border); padding:8px 0; font-size:12px; line-height:1.55;}
   .feed-item:last-child{border-bottom:none;}
   .feed-item b{color:var(--udea-green-dark);}
-  .feed-date{color:var(--text-muted); font-size:10.5px;}
+  .feed-date{color:var(--text-faint); font-size:10.5px; margin-top:2px;}
   .feed-empty{color:var(--text-muted); font-size:12px; padding:6px 0;}
 
-  .tabs{display:flex; gap:2px; padding:14px 24px 0; background:var(--card-bg); border-bottom:1px solid var(--border);}
-  .tab-btn{font-family:inherit; font-size:13px; font-weight:700; padding:9px 16px; border:none; background:transparent; color:var(--text-muted); cursor:pointer; border-bottom:2px solid transparent;}
-  .tab-btn.active{color:var(--udea-green-dark); border-bottom-color:var(--udea-green-dark);}
-  .toolbar{display:flex; flex-wrap:wrap; gap:10px; align-items:center; padding:12px 24px; background:var(--card-bg); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:5;}
-  select, .btn{font-family:inherit; font-size:13px; border-radius:7px; border:1px solid var(--border); padding:7px 10px; background:#fff; color:var(--text); cursor:pointer;}
+  /* ---------- tabs / toolbar ---------- */
+  .tabs{display:flex; gap:4px; padding:16px 24px 0; background:var(--card-bg); border-bottom:1px solid var(--border);}
+  .tab-btn{position:relative; font-family:inherit; font-size:13px; font-weight:700; padding:10px 16px; border:none; background:transparent; color:var(--text-muted); cursor:pointer; border-bottom:2px solid transparent; transition:color .15s var(--ease), border-color .15s var(--ease);}
+  .tab-btn:hover{color:var(--udea-green-dark);}
+  .tab-btn.active{color:var(--udea-green-dark); border-bottom-color:var(--udea-lime-dark);}
+  .tab-dot{position:absolute; top:7px; right:2px; width:7px; height:7px; border-radius:50%; background:var(--prio-media); box-shadow:0 0 0 2px var(--card-bg);}
+  .toolbar{display:flex; flex-wrap:wrap; gap:10px; align-items:center; padding:13px 24px; background:var(--card-bg); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:5;}
+  select, .btn, .form-input{font-family:inherit; font-size:13px; border-radius:7px; border:1px solid var(--border); padding:7px 11px; background:#fff; color:var(--text); cursor:pointer;}
+  select{background-color:#fff; color-scheme:light;}
+  .btn{transition:background-color .15s var(--ease), color .15s var(--ease), border-color .15s var(--ease), transform .12s var(--ease);}
+  .btn:active{transform:translateY(1px);}
   .btn-primary{background:var(--udea-green-dark); border-color:var(--udea-green-dark); color:#fff; font-weight:700;}
   .btn-primary:hover{background:var(--udea-green);}
   .btn-secondary{background:#fff; color:var(--udea-teal); border-color:var(--udea-teal); font-weight:700;}
   .btn-secondary:hover{background:#eaf6f8;}
   .btn-ghost{background:transparent; border-color:transparent; color:var(--text-muted); font-weight:600;}
+  .btn-cta{background:var(--green-50); border-color:var(--border); color:var(--udea-green-dark); font-weight:700;}
+  .btn-cta:hover{background:var(--green-100); border-color:var(--udea-green);}
+  .btn-cta-full{width:100%; margin-top:10px; padding:8px; font-size:12px; border-radius:7px; cursor:pointer;}
   .spacer{flex:1;}
-  .save-flash{font-size:12px; color:var(--udea-green-dark); font-weight:700; opacity:0; transition:opacity .3s;}
+  .save-flash{font-size:12px; color:var(--udea-green-dark); font-weight:700; opacity:0; transition:opacity .3s var(--ease);}
   .save-flash.show{opacity:1;}
-  .banner{display:none; background:#fdecea; color:#8a1f27; border:1px solid #f3c2c6; padding:10px 24px; font-size:13px;}
-  .banner.show{display:block;}
+  .banner{display:none; align-items:center; justify-content:space-between; gap:12px; background:#fdecea; color:#8a1f27; border:1px solid #f3c2c6; padding:10px 24px; font-size:13px;}
+  .banner.show{display:flex;}
+  .banner.success{background:#e6f5e9; color:#1c6b34; border-color:#bfe3c8;}
+  .banner button{background:none; border:none; color:inherit; font-weight:700; cursor:pointer; font-size:13px; flex-shrink:0; padding:2px 4px;}
 
-  main{padding:20px 24px 60px; max-width:1200px; margin:0 auto;}
+  main{padding:22px 24px 64px; max-width:1200px; margin:0 auto;}
   .loading, .empty{text-align:center; color:var(--text-muted); padding:60px 0; font-size:13.5px;}
 
-  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:var(--sp-4);}
-  .card{background:var(--card-bg); border:1px solid var(--border); border-left:4px solid var(--prio-media); border-radius:var(--radius); box-shadow:var(--shadow); padding:var(--sp-4);}
+  /* ---------- cards ---------- */
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:var(--sp-4);}
+  .card{background:var(--card-bg); border:1px solid var(--border); border-left:4px solid var(--prio-media); border-radius:var(--radius); box-shadow:var(--shadow); padding:var(--sp-4); display:flex; flex-direction:column; transition:box-shadow .18s var(--ease), transform .18s var(--ease), border-color .18s var(--ease);}
+  .card:hover{transform:translateY(-3px); box-shadow:var(--shadow-lg); border-color:var(--border-strong);}
   .card.prio-Alta{border-left-color:var(--prio-alta);} .card.prio-Media{border-left-color:var(--prio-media);} .card.prio-Baja{border-left-color:var(--prio-baja);}
-  .card h3{margin:0 0 6px; font-size:14.5px; font-weight:700; line-height:1.35;}
-  .card .meta{font-size:12px; color:var(--text-muted); margin-bottom:8px; line-height:1.5;}
-  .card-contact-list{font-size:11.5px; color:var(--text-muted); margin-bottom:var(--sp-2); line-height:1.6;}
+  .card h3{margin:0 0 7px; font-size:16.5px; font-weight:600; line-height:1.3;}
+  .card .meta{font-size:12px; color:var(--text-muted); margin-bottom:9px; line-height:1.55;}
+  .card-contact-list{font-size:11.5px; color:var(--text-muted); margin-bottom:var(--sp-2); line-height:1.65;}
   .chips{display:flex; flex-wrap:wrap; gap:5px; margin-bottom:var(--sp-3);}
-  .chip{font-size:10.5px; padding:3px 9px; border-radius:20px; background:#eef4ee; color:var(--udea-green-dark); font-weight:700; white-space:nowrap;}
+  .chip{font-size:10.5px; padding:3px 10px; border-radius:20px; background:var(--green-50); color:var(--udea-green-dark); font-weight:700; white-space:nowrap;}
   .chip.estado-Planeación{background:#fdf3e3; color:#8a5b00;}
   .chip.estado-Confirmado{background:#e3f0fb; color:#0d5a7a;}
   .chip.estado-Ejecutado{background:#e6f5e9; color:#1c6b34;}
   .prio-dot{display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px;}
   .prio-dot.Alta{background:var(--prio-alta);} .prio-dot.Media{background:var(--prio-media);} .prio-dot.Baja{background:var(--prio-baja);}
   .card-actions{display:flex; gap:8px;}
-  .card-actions button{flex:1; font-size:12px; padding:7px; border-radius:6px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:700;}
-  .card-actions .edit-btn{color:var(--udea-teal); border-color:var(--udea-teal);}
-  .card-actions .del-btn{color:#b5222c;}
+  .card-actions button{font-size:12px; padding:7px; border-radius:6px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:700; transition:background-color .15s var(--ease), border-color .15s var(--ease);}
+  .card-actions .edit-btn{flex:1; color:var(--udea-teal); border-color:var(--udea-teal);}
+  .card-actions .edit-btn:hover{background:#eaf6f8;}
+  .card-actions .del-btn{flex:0 0 auto; width:32px; padding:0; display:flex; align-items:center; justify-content:center; font-size:13px; color:#b5222c; border-color:var(--border);}
+  .card-actions .del-btn:hover{background:#fdecea; border-color:#b5222c;}
+  .interes-count{margin-top:10px; font-size:11px; color:var(--udea-green-dark); font-weight:700; background:var(--green-50); border-radius:6px; padding:5px 8px; text-align:center;}
 
+  /* ---------- coverage / intereses tables ---------- */
   .cov-table{width:100%; border-collapse:collapse; background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;}
-  .cov-table th{text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); background:#f0f2ee; padding:10px 12px; border-bottom:1px solid var(--border); font-weight:700;}
-  .cov-table td{padding:11px 12px; border-bottom:1px solid var(--border); font-size:12.5px; vertical-align:top;}
+  .cov-table th{text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--text-muted); background:var(--surface-sunken); padding:11px 12px; border-bottom:1px solid var(--border); font-weight:700;}
+  .cov-table td{padding:12px; border-bottom:1px solid var(--border); font-size:12.5px; vertical-align:top;}
+  .cov-table tbody tr{transition:background-color .12s var(--ease);}
+  .cov-table tbody tr:hover{background:var(--green-50);}
   .cov-table tr:last-child td{border-bottom:none;}
-  .badge{display:inline-block; padding:3px 9px; border-radius:20px; font-size:10.5px; font-weight:700;}
+  .badge{display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:10.5px; font-weight:700;}
+  .badge::before{content:''; width:6px; height:6px; border-radius:50%; background:currentColor;}
   .badge.st-red{background:#fdecea; color:#a12128;} .badge.st-yellow{background:#fdf3e3; color:#8a5b00;} .badge.st-green{background:#e6f5e9; color:#1c6b34;}
   .cov-actions{display:flex; gap:6px; flex-wrap:wrap;}
-  .cov-actions button{font-size:11px; padding:5px 8px; border-radius:6px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:700;}
+  .cov-actions button{font-size:11px; padding:5px 9px; border-radius:6px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:700; transition:background-color .15s var(--ease);}
   .cov-actions .mailto-mini{color:var(--udea-teal); border-color:var(--udea-teal);}
+  .cov-actions .mailto-mini:hover{background:#eaf6f8;}
   .cov-actions .confirm-mini{color:var(--udea-green-dark); border-color:var(--udea-green-dark);}
-  .unit-name{font-weight:700;} .unit-type{font-size:10.5px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.03em;}
+  .cov-actions .confirm-mini:hover{background:var(--green-50);}
+  .unit-name{font-weight:700;} .unit-type{font-size:10.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.04em;}
+  .table-scroll{overflow-x:auto;}
 
-  .overlay{position:fixed; inset:0; background:rgba(15,25,18,0.45); display:none; align-items:flex-start; justify-content:center; padding:30px 16px; overflow-y:auto; z-index:20;}
+  /* ---------- modal ---------- */
+  .overlay{position:fixed; inset:0; background:rgba(1,20,10,0.5); display:none; align-items:flex-start; justify-content:center; padding:30px 16px; overflow-y:auto; z-index:20;}
   .overlay.show{display:flex;}
-  .modal{background:#fff; border-radius:12px; width:100%; max-width:640px; padding:24px; box-shadow:0 20px 50px rgba(0,0,0,0.25);}
-  .modal h2{margin:0 0 4px; font-size:16.5px;}
+  .modal{background:#fff; border-radius:var(--radius-lg); width:100%; max-width:640px; padding:26px; box-shadow:0 24px 60px rgba(1,20,10,0.32); animation:modal-in .18s var(--ease);}
+  .modal.modal-sm{max-width:480px;}
+  @keyframes modal-in{ from{opacity:0; transform:translateY(8px) scale(.985);} to{opacity:1; transform:none;} }
+  @media (prefers-reduced-motion: reduce){ .modal{animation:none;} }
+  .modal h2{margin:0 0 4px; font-size:19px; font-weight:600;}
   .modal .modal-sub{font-size:12px; color:var(--text-muted); margin-bottom:var(--sp-4);}
   fieldset{border:none; padding:0; margin:0 0 var(--sp-4);}
-  legend{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--udea-teal); margin-bottom:var(--sp-2); padding:0;}
+  legend{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:var(--udea-teal-deep); margin-bottom:var(--sp-2); padding:0;}
   .field-row{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;}
   .field-row.full{grid-template-columns:1fr;}
   label{display:block; font-size:11.5px; color:var(--text-muted); margin-bottom:4px; font-weight:600;}
-  input[type=text], input[type=date], textarea, select.form-input{width:100%; font-family:inherit; font-size:13px; padding:8px 10px; border:1px solid var(--border); border-radius:6px; background:#fbfcfa; color:var(--text);}
-  textarea{resize:vertical; min-height:44px;}
+  input[type=text], input[type=date], input[type=email], textarea, select.form-input{width:100%; font-family:inherit; font-size:13px; padding:8px 10px; border:1px solid var(--border); border-radius:6px; background:#fbfcfa; color:var(--text); transition:border-color .15s var(--ease);}
+  input:focus, textarea:focus, select:focus{border-color:var(--udea-teal);}
+  textarea{resize:vertical; min-height:48px;}
   .modal-actions{display:flex; justify-content:space-between; gap:10px; margin-top:4px;}
-  .enlace-info{background:#eaf6f8; border:1px solid #bfe3ea; border-radius:7px; padding:8px 10px; font-size:12px; color:var(--text); line-height:1.6; margin-bottom:6px;}
-  .enlace-info b{color:var(--udea-teal);}
-  .enlace-info a.mailto-btn{display:inline-block; margin-top:4px; font-size:11.5px; font-weight:700; color:#fff; background:var(--udea-teal); padding:4px 9px; border-radius:5px; text-decoration:none;}
+  .enlace-info{background:#eaf6f8; border:1px solid #bfe3ea; border-radius:7px; padding:9px 11px; font-size:12px; color:var(--text); line-height:1.6; margin-bottom:6px;}
+  .enlace-info b{color:var(--udea-teal-deep);}
+  .enlace-info a.mailto-btn{display:inline-block; margin-top:5px; font-size:11.5px; font-weight:700; color:#fff; background:var(--udea-teal); padding:5px 10px; border-radius:5px; text-decoration:none; transition:background-color .15s var(--ease);}
+  .enlace-info a.mailto-btn:hover{background:var(--udea-teal-deep);}
   .chip-list{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;}
-  .unit-chip{display:inline-flex; align-items:center; gap:6px; background:#eef4ee; color:var(--udea-green-dark); font-size:12px; font-weight:700; padding:4px 6px 4px 10px; border-radius:20px;}
-  .unit-chip button{background:none; border:none; cursor:pointer; color:var(--udea-green-dark); font-weight:800; font-size:13px;}
+  .unit-chip{display:inline-flex; align-items:center; gap:6px; background:var(--green-50); color:var(--udea-green-dark); font-size:12px; font-weight:700; padding:4px 6px 4px 10px; border-radius:20px;}
+  .unit-chip button{background:none; border:none; cursor:pointer; color:var(--udea-green-dark); font-weight:800; font-size:13px; line-height:1;}
   .otro-inline{display:flex; gap:6px; margin-top:6px;} .otro-inline input{flex:1;}
 
   @media (max-width:900px){ .top-panels{grid-template-columns:1fr;} }
   @media (max-width:640px){
     .field-row{grid-template-columns:1fr;}
-    header.top{padding:18px 16px 14px;} header.top p, .share-note{margin-left:0;}
+    header.top{padding:22px 16px 18px;} header.top p, .share-note{margin-left:0;}
+    .header-stats{align-items:flex-start;} .header-stat{align-self:flex-start;}
     .toolbar, main, .tabs, .top-panels{padding-left:16px; padding-right:16px;}
-    .cov-table{display:block; overflow-x:auto;}
+    .cov-table{display:block;}
   }
 </style>
 </head>
@@ -131,20 +209,23 @@
 
 <header class="top">
   <div>
-    <div class="brand-row"><div class="mark"></div><h1>Modelo de Eventos — Egresados UdeA</h1></div>
+    <div class="brand-row"><div class="mark" aria-hidden="true"><span></span><span></span><span></span></div><h1>Modelo de Eventos — Egresados UdeA</h1></div>
     <p>Fecha, ubicación, estrategia, aliados y presupuesto de los eventos que activan el modelo de relacionamiento con egresados.</p>
     <div class="share-note">🔗 Tablero compartido: cualquiera con este enlace ve y edita la información</div>
   </div>
-  <div class="header-stat" id="headerStat">Cargando…</div>
+  <div class="header-stats">
+    <div class="header-stat" id="headerStat">Cargando…</div>
+    <div class="header-stat header-stat-accent" id="headerInteresStat" style="display:none;"></div>
+  </div>
 </header>
 <div class="id-stripe"><span class="s1"></span><span class="s2"></span><span class="s3"></span></div>
 
 <div class="top-panels">
   <div class="panel">
     <div class="cal-header">
-      <button class="cal-nav" id="calPrev">‹</button>
+      <button class="cal-nav" id="calPrev" aria-label="Mes anterior">‹</button>
       <div class="cal-title" id="calTitle">—</div>
-      <button class="cal-nav" id="calNext">›</button>
+      <button class="cal-nav" id="calNext" aria-label="Mes siguiente">›</button>
     </div>
     <div class="cal-grid" id="calGrid"></div>
   </div>
@@ -154,17 +235,21 @@
   </div>
 </div>
 
-<div class="banner" id="banner"></div>
+<div class="banner" id="banner" role="alert" aria-live="polite">
+  <span id="bannerText"></span>
+  <button type="button" id="bannerClose" aria-label="Cerrar aviso">✕</button>
+</div>
 
 <div class="tabs">
   <button class="tab-btn active" id="tabEventos">Eventos</button>
   <button class="tab-btn" id="tabCobertura">Cobertura por unidad</button>
+  <button class="tab-btn" id="tabIntereses">Interesados<span class="tab-dot" id="tabInteresesDot" style="display:none;"></span></button>
 </div>
 
 <div class="toolbar" id="toolbarEventos">
-  <select id="filterMicro" class="form-input"></select>
-  <select id="filterEstado" class="form-input"></select>
-  <select id="filterPrio" class="form-input"></select>
+  <select id="filterMicro" class="form-input" aria-label="Filtrar por microcomunidad"></select>
+  <select id="filterEstado" class="form-input" aria-label="Filtrar por estado"></select>
+  <select id="filterPrio" class="form-input" aria-label="Filtrar por prioridad"></select>
   <span class="spacer"></span>
   <span class="save-flash" id="saveFlash">Guardado ✓</span>
   <button class="btn btn-secondary" id="exportBtn">⬇ Descargar CSV</button>
@@ -172,8 +257,9 @@
 </div>
 
 <div class="toolbar" id="toolbarCobertura" style="display:none;">
-  <select id="filterTipo" class="form-input">
+  <select id="filterTipo" class="form-input" aria-label="Filtrar por tipo de unidad">
     <option value="Todos">Todos los tipos</option>
+    <option value="Dirección">Direcciones</option>
     <option value="Facultad">Facultades</option>
     <option value="Escuela">Escuelas</option>
     <option value="Instituto">Institutos</option>
@@ -181,6 +267,12 @@
   </select>
   <span class="spacer"></span>
   <span class="save-flash" id="saveFlash2">Guardado ✓</span>
+</div>
+
+<div class="toolbar" id="toolbarIntereses" style="display:none;">
+  <select id="filterInteresEstado" class="form-input" aria-label="Filtrar por estado del interés"></select>
+  <span class="spacer"></span>
+  <span class="save-flash" id="saveFlash3">Guardado ✓</span>
 </div>
 
 <main><div id="content"></div></main>
@@ -192,42 +284,44 @@
     <form id="eventForm">
       <fieldset>
         <legend>Identificación</legend>
-        <div class="field-row full"><div><label>Nombre del evento</label><input type="text" name="evento"></div></div>
+        <div class="field-row full"><div><label for="f-evento">Nombre del evento</label><input type="text" id="f-evento" name="evento"></div></div>
+        <div class="field-row full"><div><label for="f-organizador">Organizador (unidad responsable)</label><select id="f-organizador" name="organizador" class="form-input"></select></div></div>
+        <div class="field-row full" id="organizadorOtroWrap" style="display:none;"><div><label for="organizadorOtroInput">Especifica la unidad organizadora</label><input type="text" id="organizadorOtroInput"></div></div>
         <div class="field-row">
-          <div><label>Fecha (texto libre)</label><input type="text" name="fecha" placeholder="ej. 15 oct 2026 o Por definir"></div>
-          <div><label>Hora</label><input type="text" name="hora" placeholder="ej. 4:00 p.m."></div>
+          <div><label for="f-fecha">Fecha (texto libre)</label><input type="text" id="f-fecha" name="fecha" placeholder="ej. 15 oct 2026 o Por definir"></div>
+          <div><label for="f-hora">Hora</label><input type="text" id="f-hora" name="hora" placeholder="ej. 4:00 p.m."></div>
         </div>
         <div class="field-row">
-          <div><label>Fecha inicio (para el calendario, opcional)</label><input type="date" name="fechaInicio"></div>
-          <div><label>Fecha fin (si dura varios días)</label><input type="date" name="fechaFin"></div>
+          <div><label for="f-fechaInicio">Fecha inicio (para el calendario, opcional)</label><input type="date" id="f-fechaInicio" name="fechaInicio"></div>
+          <div><label for="f-fechaFin">Fecha fin (si dura varios días)</label><input type="date" id="f-fechaFin" name="fechaFin"></div>
         </div>
         <div class="field-row">
-          <div><label>Duración (opcional)</label><input type="text" name="duracion" placeholder="ej. 3 horas"></div>
-          <div><label>Modalidad</label><select name="modalidad" class="form-input"><option>Presencial</option><option>Virtual</option><option>Híbrido</option><option>Por definir</option></select></div>
+          <div><label for="f-duracion">Duración (opcional)</label><input type="text" id="f-duracion" name="duracion" placeholder="ej. 3 horas"></div>
+          <div><label for="f-modalidad">Modalidad</label><select id="f-modalidad" name="modalidad" class="form-input"><option>Presencial</option><option>Virtual</option><option>Híbrido</option><option>Por definir</option></select></div>
         </div>
-        <div class="field-row full"><div><label>Ubicación</label><input type="text" name="ubicacion" placeholder="ej. UPB, Medellín"></div></div>
+        <div class="field-row full"><div><label for="f-ubicacion">Ubicación</label><input type="text" id="f-ubicacion" name="ubicacion" placeholder="ej. UPB, Medellín"></div></div>
       </fieldset>
 
       <fieldset>
         <legend>Estrategia</legend>
         <div class="field-row">
-          <div><label>Microcomunidad / segmento</label>
-            <select name="microcomunidad" class="form-input">
+          <div><label for="f-microcomunidad">Microcomunidad / segmento</label>
+            <select id="f-microcomunidad" name="microcomunidad" class="form-input">
               <option>Red de egresados emprendedores</option><option>Red de mentores UdeA</option><option>Red de egresados en regiones</option>
               <option>Red de empleabilidad y desarrollo profesional</option><option>Relacionamiento</option>
               <option>Red de egresados investigadores / académicos</option><option>Comunidad de egresados por cohorte</option>
               <option>Vitrina institucional</option><option>Comunidad de impacto social</option><option>Otra</option>
             </select>
           </div>
-          <div><label>Enfocado a egresados en</label>
-            <select name="etapaCiclo" class="form-input">
+          <div><label for="f-etapaCiclo">Enfocado a egresados en</label>
+            <select id="f-etapaCiclo" name="etapaCiclo" class="form-input">
               <option>Transición (0-2 años)</option><option>Inserción y crecimiento (2-10 años)</option>
               <option>Consolidación y liderazgo (10-25 años)</option><option>Legado (+25 años)</option><option>Transversal</option>
             </select>
           </div>
         </div>
         <div class="field-row full">
-          <div><label>Objetivo estratégico</label>
+          <div><label for="objetivoSelect">Objetivo estratégico</label>
             <select name="objetivo" id="objetivoSelect" class="form-input">
               <option>Empleabilidad y desarrollo profesional</option><option>Activar microcomunidad prioritaria</option>
               <option>Atender punto crítico del ciclo de vida (transición o consolidación)</option><option>Formación continua / actualización</option>
@@ -237,52 +331,80 @@
             </select>
           </div>
         </div>
-        <div class="field-row full" id="objetivoOtroWrap" style="display:none;"><div><label>Especifica el objetivo</label><input type="text" id="objetivoOtroInput"></div></div>
+        <div class="field-row full" id="objetivoOtroWrap" style="display:none;"><div><label for="objetivoOtroInput">Especifica el objetivo</label><input type="text" id="objetivoOtroInput"></div></div>
       </fieldset>
 
       <fieldset>
         <legend>Alianzas y recursos</legend>
         <div class="field-row full">
-          <label>Aliados internos (unidades académicas)</label>
+          <label for="aliadosAddSelect">Aliados internos (unidades académicas)</label>
           <div class="chip-list" id="aliadosChipList"></div>
           <select id="aliadosAddSelect" class="form-input"></select>
           <div class="otro-inline" id="aliadosOtroInlineWrap" style="display:none;">
-            <input type="text" id="aliadosOtroInlineInput" placeholder="Nombre de la unidad">
+            <input type="text" id="aliadosOtroInlineInput" placeholder="Nombre de la unidad" aria-label="Nombre de la unidad académica">
             <button type="button" class="btn btn-secondary" id="aliadosOtroAddBtn">Agregar</button>
           </div>
           <div id="enlaceInfoBox" style="margin-top:8px;"></div>
         </div>
         <div class="field-row">
-          <div><label>Aliados externos</label><input type="text" name="aliadosExternos" placeholder="ej. FUA, Comfama"></div>
-          <div><label>Presupuesto estimado</label><input type="text" name="presupuesto" placeholder="ej. $8.000.000 o Por definir"></div>
+          <div><label for="f-aliadosExternos">Aliados externos</label><input type="text" id="f-aliadosExternos" name="aliadosExternos" placeholder="ej. FUA, Comfama"></div>
+          <div><label for="f-presupuesto">Presupuesto estimado</label><input type="text" id="f-presupuesto" name="presupuesto" placeholder="ej. $8.000.000 o Por definir"></div>
         </div>
-        <div class="field-row full"><div><label>Fuente de financiación</label><input type="text" name="fuenteFinanciacion"></div></div>
+        <div class="field-row full"><div><label for="f-fuenteFinanciacion">Fuente de financiación</label><input type="text" id="f-fuenteFinanciacion" name="fuenteFinanciacion"></div></div>
       </fieldset>
 
       <fieldset>
         <legend>Ejecución</legend>
         <div class="field-row">
-          <div><label>Responsable / dinamizador</label><input type="text" name="responsable"></div>
-          <div><label>Canal de convocatoria</label><input type="text" name="canalConvocatoria"></div>
+          <div><label for="f-responsable">Responsable / dinamizador</label><input type="text" id="f-responsable" name="responsable"></div>
+          <div><label for="f-canalConvocatoria">Canal de convocatoria</label><input type="text" id="f-canalConvocatoria" name="canalConvocatoria"></div>
         </div>
         <div class="field-row">
-          <div><label>Estado</label><select name="estado" class="form-input"><option>Planeación</option><option>Confirmado</option><option>Ejecutado</option></select></div>
-          <div><label>Prioridad</label><select name="prioridad" class="form-input"><option>Alta</option><option>Media</option><option>Baja</option></select></div>
+          <div><label for="f-estado">Estado</label><select id="f-estado" name="estado" class="form-input"><option>Planeación</option><option>Confirmado</option><option>Ejecutado</option></select></div>
+          <div><label for="f-prioridad">Prioridad</label><select id="f-prioridad" name="prioridad" class="form-input"><option>Alta</option><option>Media</option><option>Baja</option></select></div>
         </div>
       </fieldset>
 
       <fieldset>
         <legend>Medición</legend>
         <div class="field-row">
-          <div><label>Mecanismo de captura de datos</label><input type="text" name="mecanismoCaptura"></div>
-          <div><label>Meta de participación</label><input type="text" name="metaParticipacion"></div>
+          <div><label for="f-mecanismoCaptura">Mecanismo de captura de datos</label><input type="text" id="f-mecanismoCaptura" name="mecanismoCaptura"></div>
+          <div><label for="f-metaParticipacion">Meta de participación</label><input type="text" id="f-metaParticipacion" name="metaParticipacion"></div>
         </div>
-        <div class="field-row full"><div><label>Observaciones / riesgos</label><textarea name="observaciones"></textarea></div></div>
+        <div class="field-row full"><div><label for="f-observaciones">Observaciones / riesgos</label><textarea id="f-observaciones" name="observaciones"></textarea></div></div>
       </fieldset>
 
       <div class="modal-actions">
         <button type="button" class="btn" id="cancelBtn">Cancelar</button>
         <button type="submit" class="btn btn-primary">Guardar evento</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="overlay" id="interesOverlay">
+  <div class="modal modal-sm">
+    <h2>🤝 Quiero aliarme</h2>
+    <div class="modal-sub" id="interesEventoLabel">Evento: —</div>
+    <form id="interesForm">
+      <div class="field-row full">
+        <div><label for="interesUnidadSelect">Tu unidad académica</label>
+          <select id="interesUnidadSelect" class="form-input"></select>
+        </div>
+      </div>
+      <div class="field-row full" id="interesUnidadOtroWrap" style="display:none;">
+        <div><label for="interesUnidadOtroInput">Nombre de tu unidad</label><input type="text" id="interesUnidadOtroInput"></div>
+      </div>
+      <div class="field-row full">
+        <div><label for="interesMensaje">Mensaje (opcional)</label><textarea id="interesMensaje" placeholder="Cuéntanos brevemente cómo les gustaría participar…"></textarea></div>
+      </div>
+      <div class="field-row">
+        <div><label for="interesContactoNombre">Tu nombre (opcional)</label><input type="text" id="interesContactoNombre" autocomplete="name"></div>
+        <div><label for="interesContactoCorreo">Tu correo (opcional)</label><input type="email" id="interesContactoCorreo" autocomplete="email" inputmode="email" placeholder="nombre@udea.edu.co"></div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn" id="interesCancelBtn">Cancelar</button>
+        <button type="submit" class="btn btn-cta">🤝 Enviar interés</button>
       </div>
     </form>
   </div>
@@ -296,7 +418,7 @@ function sbHeaders(extra){ return Object.assign({'apikey':SUPABASE_KEY,'Authoriz
 
 function toDb(ev){
   return {
-    evento: ev.evento||'', fecha: ev.fecha||'', hora: ev.hora||'',
+    evento: ev.evento||'', organizador: ev.organizador||'', fecha: ev.fecha||'', hora: ev.hora||'',
     fecha_inicio: ev.fechaInicio ? ev.fechaInicio : null, fecha_fin: ev.fechaFin ? ev.fechaFin : null,
     duracion: ev.duracion||'', modalidad: ev.modalidad||'', ubicacion: ev.ubicacion||'',
     microcomunidad: ev.microcomunidad||'', etapa_ciclo: ev.etapaCiclo||'', objetivo: ev.objetivo||'',
@@ -309,7 +431,7 @@ function toDb(ev){
 }
 function fromDb(row){
   return {
-    id: row.id, evento: row.evento||'', fecha: row.fecha||'', hora: row.hora||'',
+    id: row.id, evento: row.evento||'', organizador: row.organizador||'', fecha: row.fecha||'', hora: row.hora||'',
     fechaInicio: row.fecha_inicio||'', fechaFin: row.fecha_fin||'', duracion: row.duracion||'',
     modalidad: row.modalidad||'', ubicacion: row.ubicacion||'', microcomunidad: row.microcomunidad||'',
     etapaCiclo: row.etapa_ciclo||'', objetivo: row.objetivo||'',
@@ -321,6 +443,10 @@ function fromDb(row){
   };
 }
 function actFromDb(row){ return {id:row.id, tipo:row.tipo, evento:row.evento, unidad:row.unidad, marcadoPor:row.marcado_por, fecha:row.fecha}; }
+function interesFromDb(row){
+  return {id:row.id, eventoId:row.evento_id, eventoNombre:row.evento_nombre||'', unidad:row.unidad||'', mensaje:row.mensaje||'',
+    contactoNombre:row.contacto_nombre||'', contactoCorreo:row.contacto_correo||'', estado:row.estado||'Nuevo', fecha:row.created_at};
+}
 
 async function fetchEventos(){
   const r = await fetch(`${SUPABASE_URL}/rest/v1/eventos?select=*&order=created_at.asc`, {headers: sbHeaders()});
@@ -331,6 +457,11 @@ async function fetchActividad(){
   const r = await fetch(`${SUPABASE_URL}/rest/v1/actividad?select=*&order=fecha.desc`, {headers: sbHeaders()});
   if(!r.ok) throw new Error('fetch actividad '+r.status);
   return (await r.json()).map(actFromDb);
+}
+async function fetchIntereses(){
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/intereses?select=*&order=created_at.desc`, {headers: sbHeaders()});
+  if(!r.ok) throw new Error('fetch intereses '+r.status);
+  return (await r.json()).map(interesFromDb);
 }
 async function insertEvento(ev){
   const r = await fetch(`${SUPABASE_URL}/rest/v1/eventos`, {method:'POST', headers: sbHeaders({'Prefer':'return=representation'}), body: JSON.stringify({id:ev.id, ...toDb(ev)})});
@@ -352,10 +483,23 @@ async function insertActividad(entry){
   if(!r.ok) throw new Error('insert actividad '+r.status+' '+(await r.text()));
   return actFromDb((await r.json())[0]);
 }
+async function insertInterese(data){
+  const row = {id:'in'+Date.now()+Math.random().toString(36).slice(2,6), evento_id:data.eventoId||null, evento_nombre:data.eventoNombre||'',
+    unidad:data.unidad||'', mensaje:data.mensaje||'', contacto_nombre:data.contactoNombre||'', contacto_correo:data.contactoCorreo||'', estado:'Nuevo'};
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/intereses`, {method:'POST', headers: sbHeaders({'Prefer':'return=representation'}), body: JSON.stringify(row)});
+  if(!r.ok) throw new Error('insert interes '+r.status+' '+(await r.text()));
+  return interesFromDb((await r.json())[0]);
+}
+async function updateInterese(id, estado){
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/intereses?id=eq.${encodeURIComponent(id)}`, {method:'PATCH', headers: sbHeaders({'Prefer':'return=representation'}), body: JSON.stringify({estado})});
+  if(!r.ok) throw new Error('update interes '+r.status);
+  return interesFromDb((await r.json())[0]);
+}
 
 const MICRO_OPTS = ['Todas las microcomunidades','Red de egresados emprendedores','Red de mentores UdeA','Red de egresados en regiones','Red de empleabilidad y desarrollo profesional','Relacionamiento','Red de egresados investigadores / académicos','Comunidad de egresados por cohorte','Vitrina institucional','Comunidad de impacto social','Otra'];
 const ESTADO_OPTS = ['Todos los estados','Planeación','Confirmado','Ejecutado'];
 const PRIO_OPTS = ['Todas las prioridades','Alta','Media','Baja'];
+const INTERES_ESTADO_OPTS = ['Todos los estados','Nuevo','Atendido'];
 const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const DIAS = ['L','M','X','J','V','S','D'];
 
@@ -382,28 +526,38 @@ const UNIDADES = [
   {tipo:'Instituto', nombre:'Instituto Universitario de Educación Física', enlace:'Felipe Hoyos Pinzón', correo:'egresadosedufisica@udea.edu.co'},
   {tipo:'Instituto', nombre:'Instituto de Estudios Políticos', enlace:'Alejandra Morales', correo:'extensionepoliticos@udea.edu.co'},
   {tipo:'Instituto', nombre:'Instituto de Estudios Regionales (INER)', enlace:'Simón Palacio Zapata', correo:'posgrado.siner@udea.edu.co'},
-  {tipo:'Corporación', nombre:'Corporación Académica Ciencias Básicas Biomédicas', enlace:'Fred Danilo Palacio', correo:'extensionbiomedicas@udea.edu.co'}
+  {tipo:'Corporación', nombre:'Corporación Académica Ciencias Básicas Biomédicas', enlace:'Fred Danilo Palacio', correo:'extensionbiomedicas@udea.edu.co'},
+  {tipo:'Dirección', nombre:'División de Egresados', enlace:'', correo:''},
+  {tipo:'Dirección', nombre:'Dirección de Regionalización', enlace:'', correo:''},
+  {tipo:'Dirección', nombre:'Dirección de Relaciones Internacionales', enlace:'', correo:''},
+  {tipo:'Dirección', nombre:'Dirección de Posgrado', enlace:'', correo:''}
 ];
+const TIPO_PLURAL = {'Dirección':'Direcciones','Facultad':'Facultades','Escuela':'Escuelas','Instituto':'Institutos','Corporación':'Corporaciones'};
 function findUnidad(nombre){ return UNIDADES.find(u => u.nombre === nombre) || null; }
 
-const FIELD_ORDER = ['evento','fecha','hora','fechaInicio','fechaFin','duracion','modalidad','ubicacion','microcomunidad','etapaCiclo','objetivo','aliadosInternos','aliadosExternos','presupuesto','fuenteFinanciacion','responsable','canalConvocatoria','estado','mecanismoCaptura','metaParticipacion','prioridad','observaciones'];
-const CSV_HEADERS = ['Evento','Fecha','Hora','Fecha inicio','Fecha fin','Duración','Modalidad','Ubicación','Microcomunidad / Segmento','Enfocado a egresados en','Objetivo','Aliados internos','Aliados externos','Presupuesto estimado','Fuente de financiación','Responsable','Canal de convocatoria','Estado','Mecanismo de captura de datos','Meta de participación','Prioridad','Observaciones'];
+const FIELD_ORDER = ['evento','organizador','fecha','hora','fechaInicio','fechaFin','duracion','modalidad','ubicacion','microcomunidad','etapaCiclo','objetivo','aliadosInternos','aliadosExternos','presupuesto','fuenteFinanciacion','responsable','canalConvocatoria','estado','mecanismoCaptura','metaParticipacion','prioridad','observaciones'];
+const CSV_HEADERS = ['Evento','Organizador','Fecha','Hora','Fecha inicio','Fecha fin','Duración','Modalidad','Ubicación','Microcomunidad / Segmento','Enfocado a egresados en','Objetivo','Aliados internos','Aliados externos','Presupuesto estimado','Fuente de financiación','Responsable','Canal de convocatoria','Estado','Mecanismo de captura de datos','Meta de participación','Prioridad','Observaciones'];
 
 let events = [];
 let activityLog = [];
+let intereses = [];
 let editingId = null;
 let currentAliados = [];
 let currentView = 'eventos';
 let calYear, calMonth;
+let interesEventId = null;
 
 const contentEl = document.getElementById('content');
 const bannerEl = document.getElementById('banner');
 const overlayEl = document.getElementById('overlay');
 const formEl = document.getElementById('eventForm');
+const interesOverlayEl = document.getElementById('interesOverlay');
+const interesFormEl = document.getElementById('interesForm');
 
 function esc(s){ return (s||'').toString().replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-function showBanner(msg){ bannerEl.textContent = msg; bannerEl.classList.add('show'); }
-function flashSaved(){ ['saveFlash','saveFlash2'].forEach(id=>{ const el=document.getElementById(id); if(el){ el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1400); } }); }
+function showBanner(msg, type){ document.getElementById('bannerText').textContent = msg; bannerEl.className = 'banner show' + (type==='success' ? ' success' : ''); }
+document.getElementById('bannerClose').addEventListener('click', ()=>bannerEl.classList.remove('show'));
+function flashSaved(){ ['saveFlash','saveFlash2','saveFlash3'].forEach(id=>{ const el=document.getElementById(id); if(el){ el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1400); } }); }
 function formatFecha(iso){ return new Date(iso).toLocaleDateString('es-CO'); }
 function formatRelativo(iso){
   const d=new Date(iso), diffH=(new Date()-d)/3600000;
@@ -418,20 +572,25 @@ function populateSelect(el, opts){ el.innerHTML = opts.map(o=>`<option value="${
 populateSelect(document.getElementById('filterMicro'), MICRO_OPTS);
 populateSelect(document.getElementById('filterEstado'), ESTADO_OPTS);
 populateSelect(document.getElementById('filterPrio'), PRIO_OPTS);
+populateSelect(document.getElementById('filterInteresEstado'), INTERES_ESTADO_OPTS);
 
-function populateAliadosAddSelect(){
-  const sel = document.getElementById('aliadosAddSelect');
-  const grupos = ['Facultad','Escuela','Instituto','Corporación'];
-  let html = '<option value="">+ Agregar unidad académica…</option>';
+function buildUnidadOptionsHTML(placeholder){
+  const grupos = ['Dirección','Facultad','Escuela','Instituto','Corporación'];
+  let html = `<option value="">${placeholder}</option>`;
   grupos.forEach(tipo=>{
     const items = UNIDADES.filter(u=>u.tipo===tipo);
     if(items.length===0) return;
-    html += `<optgroup label="${tipo}es">` + items.map(u=>`<option value="${u.nombre}">${u.nombre}</option>`).join('') + `</optgroup>`;
+    html += `<optgroup label="${TIPO_PLURAL[tipo]}">` + items.map(u=>`<option value="${esc(u.nombre)}">${esc(u.nombre)}</option>`).join('') + `</optgroup>`;
   });
   html += `<option value="Otro">Otra unidad (especificar)</option>`;
-  sel.innerHTML = html;
+  return html;
 }
+function populateAliadosAddSelect(){ document.getElementById('aliadosAddSelect').innerHTML = buildUnidadOptionsHTML('+ Agregar unidad académica…'); }
+function populateInteresUnidadSelect(){ document.getElementById('interesUnidadSelect').innerHTML = buildUnidadOptionsHTML('Selecciona tu unidad académica…'); }
+function populateOrganizadorSelect(){ document.getElementById('f-organizador').innerHTML = buildUnidadOptionsHTML('Selecciona la unidad organizadora…'); }
 populateAliadosAddSelect();
+populateOrganizadorSelect();
+populateInteresUnidadSelect();
 
 /* ---------------- carga inicial ---------------- */
 async function loadAll(){
@@ -440,6 +599,8 @@ async function loadAll(){
   catch(e){ console.error(e); events = []; showBanner('No se pudo conectar con la base de datos. Verifica tu conexión e inténtalo de nuevo.'); }
   try{ activityLog = await fetchActividad(); }
   catch(e){ console.error(e); activityLog = []; }
+  try{ intereses = await fetchIntereses(); }
+  catch(e){ console.error(e); intereses = []; }
   initCalendarDefault();
   refreshUI();
 }
@@ -448,21 +609,33 @@ function refreshUI(){ render(); renderFeed(); renderCalendar(); updateHeaderStat
 /* ---------------- tabs ---------------- */
 document.getElementById('tabEventos').addEventListener('click', ()=>switchView('eventos'));
 document.getElementById('tabCobertura').addEventListener('click', ()=>switchView('cobertura'));
+document.getElementById('tabIntereses').addEventListener('click', ()=>switchView('intereses'));
 function switchView(v){
   currentView = v;
   document.getElementById('tabEventos').classList.toggle('active', v==='eventos');
   document.getElementById('tabCobertura').classList.toggle('active', v==='cobertura');
+  document.getElementById('tabIntereses').classList.toggle('active', v==='intereses');
   document.getElementById('toolbarEventos').style.display = v==='eventos' ? 'flex':'none';
   document.getElementById('toolbarCobertura').style.display = v==='cobertura' ? 'flex':'none';
+  document.getElementById('toolbarIntereses').style.display = v==='intereses' ? 'flex':'none';
   render();
 }
-function render(){ currentView==='eventos' ? renderEventos() : renderCobertura(); }
+function render(){
+  if(currentView==='eventos') renderEventos();
+  else if(currentView==='cobertura') renderCobertura();
+  else renderInteresados();
+}
 
 /* ---------------- header stat + feed ---------------- */
 function updateHeaderStat(){
   const cov = computeCobertura('Todos');
   const activas = cov.filter(r=>r.estado!=='red').length;
   document.getElementById('headerStat').textContent = `${activas} de ${UNIDADES.length} unidades activas`;
+  const pendientes = intereses.filter(i=>i.estado!=='Atendido').length;
+  const badge = document.getElementById('headerInteresStat');
+  if(pendientes>0){ badge.style.display=''; badge.textContent = `🤝 ${pendientes} interesado${pendientes>1?'s':''} sin atender`; }
+  else{ badge.style.display='none'; }
+  document.getElementById('tabInteresesDot').style.display = pendientes>0 ? '' : 'none';
 }
 function renderFeed(){
   const list = document.getElementById('feedList');
@@ -474,6 +647,7 @@ function renderFeed(){
     else if(a.tipo==='evento_editado') text = `Se actualizó <b>${esc(a.evento)}</b>`;
     else if(a.tipo==='evento_eliminado') text = `Se eliminó <b>${esc(a.evento)}</b>`;
     else if(a.tipo==='contacto') text = `<b>${esc(a.unidad)}</b> fue marcada como contactada${a.evento && a.evento!=='Contacto general' ? ' para '+esc(a.evento) : ''}`;
+    else if(a.tipo==='interes_evento') text = `<b>${esc(a.unidad)}</b> quiere aliarse a <b>${esc(a.evento)}</b>`;
     return `<div class="feed-item">${text}<div class="feed-date tabular">${formatRelativo(a.fecha)}</div></div>`;
   }).join('');
 }
@@ -530,28 +704,32 @@ function renderEventos(){
   contentEl.innerHTML = `<div class="grid">${list.map(cardHTML).join('')}</div>`;
   contentEl.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openForm(b.dataset.edit)));
   contentEl.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>deleteEvent(b.dataset.del)));
+  contentEl.querySelectorAll('[data-interes]').forEach(b=>b.addEventListener('click',()=>openInteresForm(b.dataset.interes)));
 }
 function cardHTML(ev){
   const aliados = Array.isArray(ev.aliadosInternos)?ev.aliadosInternos:[];
-  const contactLines = aliados.map(n=>{ const u=findUnidad(n); return u?`👤 ${esc(u.enlace)} (${esc(n)})`:`👤 ${esc(n)}`; }).join('<br>');
+  const contactLines = aliados.map(n=>{ const u=findUnidad(n); return u && u.enlace ? `👤 ${esc(u.enlace)} (${esc(n)})` : `👤 ${esc(n)}`; }).join('<br>');
+  const count = intereses.filter(i=>i.eventoId===ev.id).length;
   return `
   <div class="card prio-${ev.prioridad}">
     <h3>${esc(ev.evento)}</h3>
-    <div class="meta">📅 ${esc(ev.fecha)} ${ev.hora && ev.hora!=='—' ? '· '+esc(ev.hora):''}${ev.duracion?' · '+esc(ev.duracion):''}<br>📍 ${esc(ev.ubicacion)||'Ubicación por definir'}</div>
+    <div class="meta">${ev.organizador ? `🏛 ${esc(ev.organizador)}<br>` : ''}📅 ${esc(ev.fecha)} ${ev.hora && ev.hora!=='—' ? '· '+esc(ev.hora):''}${ev.duracion?' · '+esc(ev.duracion):''}<br>📍 ${esc(ev.ubicacion)||'Ubicación por definir'}</div>
     ${contactLines ? `<div class="card-contact-list">${contactLines}</div>` : ''}
     <div class="chips">
       <span class="chip"><span class="prio-dot ${ev.prioridad}"></span>${esc(ev.prioridad)}</span>
       <span class="chip estado-${esc(ev.estado)}">${esc(ev.estado)}</span>
       <span class="chip">${esc(ev.microcomunidad)}</span>
     </div>
-    <div class="card-actions"><button class="edit-btn" data-edit="${ev.id}">Ver / Editar</button><button class="del-btn" data-del="${ev.id}">Eliminar</button></div>
+    <div class="card-actions"><button class="edit-btn" data-edit="${ev.id}">Ver / Editar</button><button class="del-btn" data-del="${ev.id}" aria-label="Eliminar evento" title="Eliminar evento">🗑</button></div>
+    ${count>0 ? `<div class="interes-count">🤝 ${count} unidad${count>1?'es':''} interesada${count>1?'s':''} en aliarse</div>` : ''}
+    <button type="button" class="btn btn-cta btn-cta-full" data-interes="${ev.id}">🤝 Quiero aliarme</button>
   </div>`;
 }
 
 /* ---------------- form: aliados internos (multi) ---------------- */
 function renderAliadosChips(){
   const list = document.getElementById('aliadosChipList');
-  list.innerHTML = currentAliados.map(n=>`<span class="unit-chip">${esc(n)}<button type="button" data-remove="${esc(n)}">×</button></span>`).join('');
+  list.innerHTML = currentAliados.map(n=>`<span class="unit-chip">${esc(n)}<button type="button" data-remove="${esc(n)}" aria-label="Quitar ${esc(n)}">×</button></span>`).join('');
   list.querySelectorAll('[data-remove]').forEach(b=>b.addEventListener('click', ()=>{ currentAliados = currentAliados.filter(n=>n!==b.dataset.remove); renderAliadosChips(); }));
   renderEnlaceInfoBoxes();
 }
@@ -561,6 +739,7 @@ function renderEnlaceInfoBoxes(){
   box.innerHTML = currentAliados.map(n=>{
     const u = findUnidad(n);
     if(!u) return `<div class="enlace-info">${esc(n)} — unidad personalizada, sin enlace registrado.</div>`;
+    if(!u.correo) return `<div class="enlace-info">${esc(u.nombre)} — aún no tiene un correo de contacto registrado en el tablero.</div>`;
     const subject = encodeURIComponent('Invitación — '+eventoNombre);
     const body = encodeURIComponent(`Hola ${u.enlace},\n\nTe escribo desde la División de Egresados para invitar a ${u.nombre} a participar en "${eventoNombre}".\n\nTe cuento los detalles y quedo atento a tu confirmación.\n\nSaludos.`);
     return `<div class="enlace-info">👤 <b>${esc(u.enlace)}</b> · ${esc(u.correo)} (${esc(n)})<br><a class="mailto-btn" href="mailto:${u.correo}?subject=${subject}&body=${body}">✉ Redactar invitación</a></div>`;
@@ -582,8 +761,11 @@ document.querySelector('[name="evento"]').addEventListener('input', renderEnlace
 document.getElementById('objetivoSelect').addEventListener('change', function(){
   document.getElementById('objetivoOtroWrap').style.display = this.value==='Otro' ? '' : 'none';
 });
+document.getElementById('f-organizador').addEventListener('change', function(){
+  document.getElementById('organizadorOtroWrap').style.display = this.value==='Otro' ? '' : 'none';
+});
 
-/* ---------------- open/close/submit ---------------- */
+/* ---------------- open/close/submit: evento ---------------- */
 function openForm(id){
   editingId = id || null;
   const ev = id ? events.find(e=>e.id===id) : {};
@@ -593,6 +775,10 @@ function openForm(id){
   const presetObjetivos = Array.from(objetivoSelect.options).map(o=>o.value);
   if(ev.objetivo && !presetObjetivos.includes(ev.objetivo)){ objetivoSelect.value='Otro'; document.getElementById('objetivoOtroInput').value=ev.objetivo; document.getElementById('objetivoOtroWrap').style.display=''; }
   else{ document.getElementById('objetivoOtroInput').value=''; document.getElementById('objetivoOtroWrap').style.display='none'; }
+  const organizadorSelect = document.getElementById('f-organizador');
+  const presetOrganizadores = Array.from(organizadorSelect.options).map(o=>o.value);
+  if(ev.organizador && !presetOrganizadores.includes(ev.organizador)){ organizadorSelect.value='Otro'; document.getElementById('organizadorOtroInput').value=ev.organizador; document.getElementById('organizadorOtroWrap').style.display=''; }
+  else{ document.getElementById('organizadorOtroInput').value=''; document.getElementById('organizadorOtroWrap').style.display='none'; }
   currentAliados = Array.isArray(ev.aliadosInternos) ? ev.aliadosInternos.slice() : [];
   document.getElementById('aliadosOtroInlineWrap').style.display='none';
   renderAliadosChips();
@@ -610,6 +796,7 @@ formEl.addEventListener('submit', async (e)=>{
     FIELD_ORDER.forEach(f=>{ if(formEl.elements[f]) data[f] = formEl.elements[f].value.trim(); });
     if(!data.evento){ showBanner('Escribe un nombre para el evento antes de guardar.'); return; }
     if(data.objetivo==='Otro'){ data.objetivo = document.getElementById('objetivoOtroInput').value.trim() || 'Otro (sin especificar)'; }
+    if(data.organizador==='Otro'){ data.organizador = document.getElementById('organizadorOtroInput').value.trim() || 'Otro (sin especificar)'; }
     data.aliadosInternos = currentAliados.slice();
     const wasEdit = !!editingId;
     let saved;
@@ -636,6 +823,65 @@ async function deleteEvent(id){
 }
 ['filterMicro','filterEstado','filterPrio'].forEach(id=>document.getElementById(id).addEventListener('change', render));
 document.getElementById('filterTipo').addEventListener('change', render);
+document.getElementById('filterInteresEstado').addEventListener('change', render);
+
+/* ---------------- open/close/submit: interés ("Quiero aliarme") ---------------- */
+function openInteresForm(eventId){
+  interesEventId = eventId;
+  const ev = events.find(e=>e.id===eventId);
+  document.getElementById('interesEventoLabel').textContent = 'Evento: ' + (ev ? ev.evento : '—');
+  interesFormEl.reset();
+  document.getElementById('interesUnidadOtroWrap').style.display='none';
+  interesOverlayEl.classList.add('show');
+}
+function closeInteresForm(){ interesOverlayEl.classList.remove('show'); interesEventId=null; }
+document.getElementById('interesUnidadSelect').addEventListener('change', function(){
+  document.getElementById('interesUnidadOtroWrap').style.display = this.value==='Otro' ? '' : 'none';
+});
+document.getElementById('interesCancelBtn').addEventListener('click', closeInteresForm);
+interesOverlayEl.addEventListener('click', (e)=>{ if(e.target===interesOverlayEl) closeInteresForm(); });
+
+interesFormEl.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const ev = events.find(ev=>ev.id===interesEventId);
+  if(!ev){ showBanner('No se encontró el evento. Actualiza la página e intenta de nuevo.'); return; }
+  let unidadSel = document.getElementById('interesUnidadSelect').value;
+  if(!unidadSel){ showBanner('Selecciona tu unidad académica antes de enviar.'); return; }
+  if(unidadSel==='Otro'){
+    unidadSel = document.getElementById('interesUnidadOtroInput').value.trim();
+    if(!unidadSel){ showBanner('Escribe el nombre de tu unidad académica.'); return; }
+  }
+  const mensaje = document.getElementById('interesMensaje').value.trim();
+  const contactoNombre = document.getElementById('interesContactoNombre').value.trim();
+  const contactoCorreo = document.getElementById('interesContactoCorreo').value.trim();
+  try{
+    const saved = await insertInterese({eventoId: ev.id, eventoNombre: ev.evento, unidad: unidadSel, mensaje, contactoNombre, contactoCorreo});
+    intereses.unshift(saved);
+    const actEntry = await insertActividad({tipo:'interes_evento', evento: ev.evento, unidad: unidadSel, marcadoPor: contactoNombre||null});
+    activityLog.push(actEntry);
+    showBanner('¡Gracias! Tu interés quedó registrado en el tablero.', 'success');
+    notificarAliados(ev, unidadSel, mensaje, contactoNombre, contactoCorreo);
+    refreshUI(); closeInteresForm();
+  }catch(err){
+    console.error('Error al registrar interés:', err);
+    showBanner('No se pudo registrar tu interés. Intenta de nuevo; si persiste, avísale a Camilo.');
+  }
+});
+function notificarAliados(ev, unidadInteresada, mensaje, contactoNombre, contactoCorreo){
+  const aliados = Array.isArray(ev.aliadosInternos) ? ev.aliadosInternos : [];
+  const correos = aliados.map(n=>findUnidad(n)).filter(Boolean).map(u=>u.correo).filter(Boolean);
+  if(correos.length===0) return;
+  const subject = encodeURIComponent('Nuevo interés en aliarse — '+ev.evento);
+  const bodyLines = [
+    'Hola,', '',
+    `${unidadInteresada} manifestó interés en aliarse al evento "${ev.evento}" a través del tablero de eventos.`, '',
+    mensaje ? `Mensaje: ${mensaje}` : null,
+    (contactoNombre||contactoCorreo) ? `Contacto: ${contactoNombre||'—'} ${contactoCorreo?('· '+contactoCorreo):''}` : null,
+    '', 'Puedes ver el detalle completo en el tablero compartido, pestaña "Interesados".'
+  ].filter(l=>l!==null).join('\n');
+  const body = encodeURIComponent(bodyLines);
+  window.open(`mailto:${correos.join(',')}?subject=${subject}&body=${body}`, '_blank');
+}
 
 /* ---------------- cobertura view ---------------- */
 function computeCobertura(tipoFiltro){
@@ -656,18 +902,18 @@ function renderCobertura(){
   const rows = computeCobertura();
   if(rows.length===0){ contentEl.innerHTML='<div class="empty">No hay unidades que coincidan con este filtro.</div>'; return; }
   contentEl.innerHTML = `
-  <table class="cov-table">
+  <div class="table-scroll"><table class="cov-table">
     <thead><tr><th>Unidad</th><th>Enlace</th><th>Estado</th><th>Última actividad</th><th>Eventos asociados</th><th>Acciones</th></tr></thead>
     <tbody>${rows.map(r=>`
       <tr>
         <td><div class="unit-name">${esc(r.nombre)}</div><div class="unit-type">${esc(r.tipo)}</div></td>
-        <td>${esc(r.enlace)}<br><span style="color:var(--text-muted);font-size:11px;">${esc(r.correo)}</span></td>
+        <td>${r.enlace ? esc(r.enlace)+'<br>' : ''}<span style="color:var(--text-muted);font-size:11px;">${esc(r.correo)||'sin correo registrado'}</span></td>
         <td><span class="badge st-${r.estado}">${esc(r.label)}</span></td>
         <td class="tabular">${r.ultimaActividad ? formatFecha(r.ultimaActividad.fecha) + (r.ultimaActividad.marcadoPor?' · '+esc(r.ultimaActividad.marcadoPor):'') : '—'}</td>
         <td>${r.relacionados.length ? r.relacionados.map(e=>esc(e.evento)).join('<br>') : '—'}</td>
-        <td><div class="cov-actions"><button class="mailto-mini" data-mail="${esc(r.nombre)}">✉ Invitar</button><button class="confirm-mini" data-confirm="${esc(r.nombre)}">✓ Marcar contactada</button></div></td>
+        <td><div class="cov-actions">${r.correo?`<button class="mailto-mini" data-mail="${esc(r.nombre)}">✉ Invitar</button>`:''}<button class="confirm-mini" data-confirm="${esc(r.nombre)}">✓ Marcar contactada</button></div></td>
       </tr>`).join('')}</tbody>
-  </table>`;
+  </table></div>`;
   contentEl.querySelectorAll('[data-mail]').forEach(b=>b.addEventListener('click', ()=>invitarDesdeCobertura(b.dataset.mail)));
   contentEl.querySelectorAll('[data-confirm]').forEach(b=>b.addEventListener('click', ()=>marcarContactada(b.dataset.confirm)));
 }
@@ -689,6 +935,43 @@ async function marcarContactada(nombre){
   }catch(err){ console.error(err); showBanner('No se pudo guardar el registro de contacto.'); }
 }
 
+/* ---------------- interesados view (admin) ---------------- */
+function renderInteresados(){
+  const estadoFilter = document.getElementById('filterInteresEstado').value;
+  let rows = intereses.slice().sort((a,b)=> new Date(b.fecha)-new Date(a.fecha));
+  if(!estadoFilter.startsWith('Todos')) rows = rows.filter(i=>i.estado===estadoFilter);
+  if(rows.length===0){ contentEl.innerHTML='<div class="empty">Aún no hay unidades interesadas en aliarse.</div>'; return; }
+  contentEl.innerHTML = `
+  <div class="table-scroll"><table class="cov-table">
+    <thead><tr><th>Evento</th><th>Unidad interesada</th><th>Mensaje</th><th>Contacto</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr></thead>
+    <tbody>${rows.map(i=>`
+      <tr>
+        <td>${esc(i.eventoNombre)}</td>
+        <td>${esc(i.unidad)}</td>
+        <td>${esc(i.mensaje)||'—'}</td>
+        <td>${i.contactoNombre||i.contactoCorreo ? `${esc(i.contactoNombre)}${i.contactoCorreo?`<br><span style="color:var(--text-muted);font-size:11px;">${esc(i.contactoCorreo)}</span>`:''}` : '—'}</td>
+        <td class="tabular">${formatFecha(i.fecha)}</td>
+        <td><span class="badge st-${i.estado==='Atendido'?'green':'yellow'}">${esc(i.estado)}</span></td>
+        <td><div class="cov-actions">
+          ${i.estado!=='Atendido' ? `<button class="confirm-mini" data-atender="${i.id}">✓ Marcar atendido</button>` : ''}
+          ${i.contactoCorreo ? `<button class="mailto-mini" data-responder="${esc(i.contactoCorreo)}" data-evento="${esc(i.eventoNombre)}">✉ Responder</button>` : ''}
+        </div></td>
+      </tr>`).join('')}</tbody>
+  </table></div>`;
+  contentEl.querySelectorAll('[data-atender]').forEach(b=>b.addEventListener('click', ()=>marcarAtendido(b.dataset.atender)));
+  contentEl.querySelectorAll('[data-responder]').forEach(b=>b.addEventListener('click', ()=>{
+    const subject = encodeURIComponent('Re: interés en aliarse — '+b.dataset.evento);
+    window.open(`mailto:${b.dataset.responder}?subject=${subject}`, '_blank');
+  }));
+}
+async function marcarAtendido(id){
+  try{
+    const saved = await updateInterese(id, 'Atendido');
+    const idx = intereses.findIndex(i=>i.id===id); if(idx>-1) intereses[idx]=saved;
+    refreshUI();
+  }catch(err){ console.error(err); showBanner('No se pudo actualizar el estado. Intenta de nuevo.'); }
+}
+
 /* ---------------- export ---------------- */
 function exportCSV(){
   const rows = [CSV_HEADERS.join(';')];
@@ -701,7 +984,7 @@ function exportCSV(){
     });
     rows.push(row.join(';'));
   });
-  const csv = '\uFEFF' + rows.join('\r\n');
+  const csv = '﻿' + rows.join('\r\n');
   const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a'); a.href=url; a.download='tablero-eventos-egresados-udea.csv';
