@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#e9e7e2">
+<meta name="theme-color" content="#014d28">
 <title>Cronograma de Eventos — Egresados UdeA</title>
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAK0SURBVFhH1ZfPaxNREMcXBduZVz3owV4VvXn1IHjx/yj0H+jFmwdBBLW1oMb3NknTNq1SEKyg4sHe9CL+wkNp3ss2SRtrm1qEtuCl9Pbku0uKTCtuazfgBx7D7HxndnbzdnYTBP8rerbrzGiTF3Kz6oKMdQRt+dpL3+ONpdsy1hF0hSqPfyj/sEKN6engqIxnSq5CF0tN9vmI/eiS8jnbfVlqMiV0/ODRmvLGso+tYyM1mVH6ErBx/K20yDixh9WOl0urAUttJoS261yhxj6MkgZg4efcsfNSmwnYcNryx/Hl+Nb72Fr+0NGNqJ3qm/yeNACr51Sf1GTKvfcBacutckt5WPhSkzm6Qneebfd4WBnrCNrRUNyAoyEZ6wja0cyTnwoNzMhY5tzwwRFtqT65hj1AdfhSkymh5V5teSseQpa34EtNpphq96WRRfb5efaw8KXmnwkd3Rx+u/eVGcv9E6vJHIit5X6pAcOfuBd15PFUYLyWmly5P9d1VsaMpbv4/eNBhH2wx5OAPOSjjoylwjhyUxvKFxu8XqzRwHh06vhOzPILDCE0EA8jx8/bMeigR97UOjTkdoruB+P43diS8iMLyW0OI26FVZrQVRrQlpeKjeRlBAsfxxGHDnrkIR91ZO1UaMuvyivJVWK1G8Hsx+bTNjkOCx/H2ydu5yAfdWTtVGhL5fYL56ArflFZKsvaqTCOBtsb7aAryadBWTsVuqquHkYDqCNrpwLP9tOtnviDo1hnH1Z3n2CvBR30yEP+n2bEX8nNqdOFOt0q1PhNGNHG6FcVX9H4itrVDHxsOMShgx55yEcdWXvfjC2fODnSUFcKEV/PRzSTj3j7929C+PkavUYcOuhljUPFOJrH/wI0kFial5pMMY4Wy63kt4aFLzWZYlz351KTNrWjTVj4UvPf8Av2ZmgvHZ2/JAAAAABJRU5ErkJggg==">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,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">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -50,11 +52,7 @@
   .hero{padding:34px 0 26px; border-bottom:1px solid var(--line);}
   .hero-top{display:flex; justify-content:space-between; align-items:flex-start; gap:24px; flex-wrap:wrap; margin-bottom:30px;}
   .brand{display:flex; align-items:center; gap:11px;}
-  .mark{width:26px; height:24px; display:flex; align-items:flex-end; gap:3px; flex-shrink:0;}
-  .mark span{flex:1; border-radius:2px;}
-  .mark span:nth-child(1){height:50%; background:var(--udea-lime);}
-  .mark span:nth-child(2){height:78%; background:var(--udea-orange);}
-  .mark span:nth-child(3){height:100%; background:var(--udea-teal-light);}
+  .mark{width:26px; height:41px; flex-shrink:0; display:block; object-fit:contain;}
   .brand h1{margin:0; font-size:16px; font-weight:600; letter-spacing:-0.01em;}
   .brand .sub{font-size:11.5px; color:var(--ink-faint); margin-top:1px;}
   .hero-meta{display:flex; gap:26px; flex-wrap:wrap;}
@@ -122,10 +120,24 @@
   .empty strong{display:block; font-family:var(--font-display); font-size:15px; color:var(--ink); margin-bottom:7px; font-weight:600;}
 
   /* ================= PANELES SUPERIORES ================= */
-  .top-panels{display:grid; grid-template-columns:1fr 1fr; gap:0; border-bottom:1px solid var(--line);}
+  .top-panels{display:block; border-bottom:1px solid var(--line);}
   .panel{min-width:0; padding:24px 0;}
-  .panel:first-child{padding-right:32px; border-right:1px solid var(--line);}
-  .panel:last-child{padding-left:32px;}
+  /* calendario a la izquierda; eventos del mes y festivos ocupan el espacio de la derecha */
+  .cal-layout{display:grid; grid-template-columns:minmax(0,380px) minmax(0,1fr); gap:36px; align-items:start;}
+  .cal-main{min-width:0;}
+  .cal-side{min-width:0; display:grid; grid-template-columns:1fr; gap:24px; border-left:1px solid var(--line); padding-left:36px;}
+  /* al tope de su columna no necesitan la línea divisoria superior */
+  .cal-side .day-events, .cal-side .conmem{margin-top:0; border-top:none; padding-top:0;}
+  @media (min-width:1080px){ .cal-side{grid-template-columns:1fr 1fr; gap:32px;} }
+  @media (max-width:860px){
+    .cal-layout{grid-template-columns:1fr; gap:0;}
+    .cal-side{border-left:none; padding-left:0; gap:0;}
+    .cal-side .day-events{margin-top:16px; border-top:1px solid var(--line-soft); padding-top:12px;}
+    .cal-side .conmem{margin-top:14px; border-top:1px solid var(--line-soft); padding-top:12px;}
+  }
+  .feed-panel{border-top:1px solid var(--line); margin-top:8px;}
+  .feed-panel #feedList{columns:2; column-gap:32px;}
+  @media (max-width:700px){ .feed-panel #feedList{columns:1;} }
   .panel-head{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:18px;}
   .cal-title{font-family:var(--font-display); font-size:14px; font-weight:600; letter-spacing:0;}
   .cal-navs{display:flex; gap:4px;}
@@ -163,7 +175,7 @@
   .cal-dot.has.p-Baja{background:var(--udea-green); border-color:var(--udea-green);}
   .cal-dot.today{box-shadow:0 0 0 2px var(--bg), 0 0 0 3.5px var(--udea-teal);}
   .cal-dot.sel{box-shadow:0 0 0 2px var(--bg), 0 0 0 3.5px var(--ink);}
-  .cal-cell.empty .cal-dot{border-color:var(--line-soft); opacity:.45;}
+  .cal-cell.sin-ev .cal-dot{border-color:var(--line-soft); opacity:.45;}
   .cal-legend{display:flex; gap:14px; flex-wrap:wrap; margin-top:16px; font-size:10px; color:var(--ink-faint);}
   .cal-legend i{display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px; vertical-align:middle;}
   .day-events{margin-top:16px; border-top:1px solid var(--line-soft); padding-top:12px;}
@@ -291,6 +303,40 @@
   .cat-hint{color:var(--ink-faint); font-weight:400;}
   .cat-count{margin-left:auto; font-variant-numeric:tabular-nums; font-weight:600; color:var(--ink-faint); border:1px solid var(--line); border-radius:100px; padding:2px 9px;}
   .cat-count.full{color:var(--udea-green-dark); border-color:var(--udea-green); background:var(--green-50);}
+
+  /* ---------- hora 12h ---------- */
+  .time-row{display:flex; align-items:center; gap:10px;}
+  .time-row input[type=time]{flex:0 1 150px;}
+  .time-preview{font-size:12px; font-weight:700; color:var(--udea-green-dark); background:var(--green-50); border-radius:100px; padding:4px 11px; white-space:nowrap;}
+  .field-help{font-size:10.5px; color:var(--ink-faint); margin-top:5px;}
+
+  /* ---------- finalizar evento ---------- */
+  .card-actions .fin-btn{flex:0 0 auto; width:30px; padding:0; display:flex; align-items:center; justify-content:center; color:var(--udea-green-dark);}
+  .card-actions .fin-btn:hover{background:var(--green-50); border-color:var(--udea-green);}
+  .card-actions .fin-btn[disabled]{opacity:.4; cursor:not-allowed;}
+  .cierre-aviso{font-size:11.5px; line-height:1.55; border:1px solid var(--line); background:var(--surface); border-radius:var(--radius-sm); padding:10px 12px; margin-bottom:18px;}
+  .cierre-aviso b{font-weight:700;}
+  .cierre-aviso.bloqueado{border-color:#e4bfbc; background:#f7e2e0; color:#8a1f27;}
+  .cierre-intro{font-size:11.5px; color:var(--ink-faint); margin:0 0 14px;}
+  .rate-block{margin-bottom:16px;}
+  .rate-q{display:flex; flex-direction:column; margin-bottom:7px;}
+  .rate-label{font-size:12px; font-weight:600;}
+  .rate-help{font-size:10.5px; color:var(--ink-faint); margin-top:2px;}
+  .rate-scale{display:flex; gap:6px; flex-wrap:wrap;}
+  .rate-opt{position:relative; flex:1 1 0; min-width:44px;}
+  .rate-opt input{position:absolute; opacity:0; width:1px; height:1px; pointer-events:none;}
+  .rate-opt span{display:flex; align-items:center; justify-content:center; height:38px; border:1px solid var(--line); border-radius:var(--radius-sm);
+    background:var(--surface); font-size:13px; font-weight:700; font-variant-numeric:tabular-nums; cursor:pointer;
+    transition:background-color .14s var(--ease), border-color .14s var(--ease), color .14s var(--ease);}
+  .rate-opt:hover span{border-color:var(--line-strong); background:var(--paper);}
+  .rate-opt:has(input:focus-visible) span{outline:2px solid var(--udea-green); outline-offset:2px;}
+  .rate-opt:has(input:checked) span{background:var(--udea-green-dark); border-color:var(--udea-green-dark); color:#fff;}
+  /* tarjeta finalizada */
+  .card.cerrado{border-left:3px solid var(--udea-green);}
+  .cierre-resumen{margin-top:10px; border-top:1px solid var(--line-soft); padding-top:10px; font-size:10.5px; color:var(--ink-soft); line-height:1.6;}
+  .cierre-resumen .cr-top{display:flex; align-items:center; gap:6px; font-weight:700; color:var(--udea-green-dark); margin-bottom:4px;}
+  .cierre-resumen .cr-nums{display:flex; gap:12px; flex-wrap:wrap; font-variant-numeric:tabular-nums;}
+  .cierre-resumen b{color:var(--ink); font-weight:700;}
   .cat-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(132px,1fr)); gap:7px;}
   .cat-opt{position:relative; display:flex; align-items:center; gap:9px; padding:10px 11px; border:1px solid var(--line); border-radius:var(--radius-sm);
     background:var(--surface); cursor:pointer; font-size:11.5px; font-weight:500; line-height:1.25; margin:0;
@@ -324,9 +370,6 @@
   .id-stripe .s1{background:var(--udea-lime);} .id-stripe .s2{background:var(--udea-orange);} .id-stripe .s3{background:var(--udea-teal-light);}
 
   @media (max-width:880px){
-    .top-panels{grid-template-columns:1fr;}
-    .panel:first-child{padding-right:0; border-right:none; border-bottom:1px solid var(--line);}
-    .panel:last-child{padding-left:0;}
     .next-wrap{grid-template-columns:1fr; gap:20px; align-items:start;}
     .next-info{padding-bottom:0;}
   }
@@ -351,7 +394,7 @@
   <header class="hero">
     <div class="hero-top">
       <div class="brand">
-        <div class="mark" aria-hidden="true"><span></span><span></span><span></span></div>
+        <img class="mark" src="data:image/png;base64,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" alt="" width="26" height="41" decoding="async">
         <div>
           <h1>Cronograma de Eventos</h1>
           <div class="sub">División de Egresados · Universidad de Antioquia</div>
@@ -382,29 +425,31 @@
 
 <div class="shell">
   <div class="top-panels" id="topPanels">
-    <section class="panel">
-      <div class="panel-head">
-        <h2 class="cal-title" id="calTitle">—</h2>
-        <div class="cal-navs">
-          <button class="cal-nav" id="calPrev" aria-label="Mes anterior">‹</button>
-          <button class="cal-nav" id="calNext" aria-label="Mes siguiente">›</button>
+    <section class="panel cal-panel">
+      <div class="cal-layout">
+        <div class="cal-main">
+          <div class="panel-head">
+            <h2 class="cal-title" id="calTitle">—</h2>
+            <div class="cal-navs">
+              <button class="cal-nav" id="calPrev" aria-label="Mes anterior">‹</button>
+              <button class="cal-nav" id="calNext" aria-label="Mes siguiente">›</button>
+            </div>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="cal-legend">
+            <span><i style="background:var(--prio-alta)"></i>Prioridad alta</span>
+            <span><i style="background:var(--udea-orange)"></i>Media</span>
+            <span><i style="background:var(--udea-green)"></i>Baja</span>
+            <span><i style="background:transparent; border:1px dashed var(--prio-alta)"></i>Festivo</span>
+            <span><i style="background:transparent; border:1px solid var(--udea-teal)"></i>Día clásico</span>
+            <span><i style="background:transparent; border:2px solid var(--udea-lime-dark)"></i>UdeA</span>
+          </div>
+        </div>
+        <div class="cal-side">
+          <div class="day-events" id="dayEvents"></div>
+          <div class="conmem" id="conmemBox"></div>
         </div>
       </div>
-      <div class="cal-grid" id="calGrid"></div>
-      <div class="cal-legend">
-        <span><i style="background:var(--prio-alta)"></i>Prioridad alta</span>
-        <span><i style="background:var(--udea-orange)"></i>Media</span>
-        <span><i style="background:var(--udea-green)"></i>Baja</span>
-        <span><i style="background:transparent; border:1px dashed var(--prio-alta)"></i>Festivo</span>
-        <span><i style="background:transparent; border:1px solid var(--udea-teal)"></i>Día clásico</span>
-        <span><i style="background:transparent; border:2px solid var(--udea-lime-dark)"></i>UdeA</span>
-      </div>
-      <div class="day-events" id="dayEvents"></div>
-      <div class="conmem" id="conmemBox"></div>
-    </section>
-    <section class="panel">
-      <div class="panel-head"><h2 class="eyebrow">Actividad reciente</h2></div>
-      <div id="feedList"></div>
     </section>
   </div>
 
@@ -468,6 +513,11 @@
   <div class="result-count" id="resultCount"></div>
   <main id="contenido" tabindex="-1"><div id="content"></div></main>
 
+  <section class="panel feed-panel" id="feedPanel">
+    <div class="panel-head"><h2 class="eyebrow">Actividad reciente</h2></div>
+    <div id="feedList"></div>
+  </section>
+
   <footer class="foot">
     <div class="id-stripe"><span class="s1"></span><span class="s2"></span><span class="s3"></span></div>
     Tablero compartido · cualquiera con este enlace ve y edita
@@ -502,19 +552,24 @@
       </fieldset>
 
       <details class="adv">
-        <summary>Fecha y formato en detalle</summary>
+        <summary>Hora, formato y campus</summary>
         <fieldset>
           <div class="field-row">
-            <div><label for="f-fecha">Fecha (texto libre)</label><input type="text" id="f-fecha" name="fecha" placeholder="ej. Octubre 2026 o Por definir"></div>
-            <div><label for="f-hora">Hora</label><input type="text" id="f-hora" name="hora" placeholder="ej. 4:00 p.m."></div>
+            <div><label for="f-horaVal">Hora</label>
+              <div class="time-row">
+                <input type="time" id="f-horaVal" step="60" aria-describedby="horaAyuda">
+                <span class="time-preview tabular" id="horaPreview">—</span>
+              </div>
+              <div class="field-help" id="horaAyuda">Se guarda en formato de 12 horas (a.m. / p.m.).</div>
+            </div>
+            <div><label for="f-duracion">Duración</label><input type="text" id="f-duracion" name="duracion" placeholder="ej. 3 horas"></div>
           </div>
           <div class="field-row">
-            <div><label for="f-duracion">Duración</label><input type="text" id="f-duracion" name="duracion" placeholder="ej. 3 horas"></div>
             <div><label for="f-modalidad">Modalidad</label><select id="f-modalidad" name="modalidad" class="form-input"><option>Presencial</option><option>Virtual</option><option>Híbrido</option><option>Por definir</option></select></div>
+            <div><label for="f-campus">Campus (opcional)</label><select id="f-campus" name="campus" class="form-input"></select></div>
           </div>
         </fieldset>
       </details>
-
       <details class="adv">
         <summary>Estrategia</summary>
         <fieldset>
@@ -609,6 +664,57 @@
   </div>
 </div>
 
+<div class="overlay" id="cierreOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cierreTitle">
+    <h2 id="cierreTitle">Finalizar evento</h2>
+    <div class="modal-sub" id="cierreEventoLabel">Evento: —</div>
+    <form id="cierreForm">
+      <div class="cierre-aviso" id="cierreAviso"></div>
+      <fieldset>
+        <legend>Quién reporta</legend>
+        <div class="field-row full">
+          <div><label for="cierreUnidadSelect">Unidad organizadora responsable</label>
+            <select id="cierreUnidadSelect" class="form-input"></select>
+          </div>
+        </div>
+        <div class="field-row full">
+          <div><label for="cierreAsistentes">¿Cuántos egresados asistieron?</label>
+            <input type="number" id="cierreAsistentes" min="0" step="1" inputmode="numeric" placeholder="ej. 120"></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Balance del evento</legend>
+        <p class="cierre-intro">Califica de 1 a 5 desde tu rol como organizador. 1 = muy bajo, 5 = excelente.</p>
+        <div class="rate-block">
+          <div class="rate-q"><span class="rate-label">1. Cumplimiento del objetivo</span>
+            <span class="rate-help">¿El evento logró el propósito para el que se planeó?</span></div>
+          <div class="rate-scale" role="radiogroup" aria-label="Cumplimiento del objetivo" id="rateObjetivo"></div>
+        </div>
+        <div class="rate-block">
+          <div class="rate-q"><span class="rate-label">2. Convocatoria y participación</span>
+            <span class="rate-help">¿La asistencia respondió a la meta esperada?</span></div>
+          <div class="rate-scale" role="radiogroup" aria-label="Convocatoria y participación" id="rateConvocatoria"></div>
+        </div>
+        <div class="rate-block">
+          <div class="rate-q"><span class="rate-label">3. Articulación con aliados</span>
+            <span class="rate-help">¿Qué tan efectiva fue la coordinación con las unidades aliadas?</span></div>
+          <div class="rate-scale" role="radiogroup" aria-label="Articulación con aliados" id="rateArticulacion"></div>
+        </div>
+        <div class="field-row full">
+          <div><label for="cierreNotas">Aprendizajes o recomendaciones (opcional)</label>
+            <textarea id="cierreNotas" placeholder="Qué repetirías y qué cambiarías para la próxima edición…"></textarea></div>
+        </div>
+      </fieldset>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="cierreCancelBtn">Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="submitCierreBtn">Finalizar Evento</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div class="overlay" id="contactoOverlay">
   <div class="modal modal-sm" role="dialog" aria-modal="true" aria-labelledby="contactoTitle">
     <h2 id="contactoTitle">Marcar como contactada</h2>
@@ -640,7 +746,7 @@ function toDb(ev){
   return {
     evento: ev.evento||'', organizador: ev.organizador||'', fecha: ev.fecha||'', hora: ev.hora||'',
     fecha_inicio: ev.fechaInicio ? ev.fechaInicio : null, fecha_fin: ev.fechaFin ? ev.fechaFin : null,
-    duracion: ev.duracion||'', modalidad: ev.modalidad||'', ubicacion: ev.ubicacion||'',
+    duracion: ev.duracion||'', modalidad: ev.modalidad||'', ubicacion: ev.ubicacion||'', campus: ev.campus||'',
     microcomunidad: ev.microcomunidad||'', etapa_ciclo: ev.etapaCiclo||'', categorias: ev.categorias||[],
     aliados_internos: ev.aliadosInternos||[], aliados_externos: ev.aliadosExternos||'',
     presupuesto: ev.presupuesto||'', fuente_financiacion: ev.fuenteFinanciacion||'',
@@ -653,7 +759,9 @@ function fromDb(row){
   return {
     id: row.id, evento: row.evento||'', organizador: row.organizador||'', fecha: row.fecha||'', hora: row.hora||'',
     fechaInicio: row.fecha_inicio||'', fechaFin: row.fecha_fin||'', duracion: row.duracion||'',
-    modalidad: row.modalidad||'', ubicacion: row.ubicacion||'', microcomunidad: row.microcomunidad||'',
+    modalidad: row.modalidad||'', ubicacion: row.ubicacion||'', campus: row.campus||'', microcomunidad: row.microcomunidad||'',
+    cerradoAt: row.cerrado_at||null, cerradoPor: row.cerrado_por||'', asistentes: (row.asistentes===null||row.asistentes===undefined)?null:row.asistentes,
+    rObjetivo: row.r_objetivo||null, rConvocatoria: row.r_convocatoria||null, rArticulacion: row.r_articulacion||null, cierreNotas: row.cierre_notas||'',
     etapaCiclo: row.etapa_ciclo||'', categorias: Array.isArray(row.categorias)?row.categorias:[],
     aliadosInternos: Array.isArray(row.aliados_internos)?row.aliados_internos:[],
     aliadosExternos: row.aliados_externos||'', presupuesto: row.presupuesto||'', fuenteFinanciacion: row.fuente_financiacion||'',
@@ -682,6 +790,16 @@ async function fetchEliminados(){
 async function softDeleteEvento(id){
   const r = await fetch(`${SUPABASE_URL}/rest/v1/eventos?id=eq.${encodeURIComponent(id)}`, {method:'PATCH', headers: sbHeaders({'Prefer':'return=representation'}), body: JSON.stringify({eliminado_at:new Date().toISOString()})});
   if(!r.ok) throw new Error('soft delete evento '+r.status+' '+(await r.text()));
+}
+async function cerrarEvento(id, c){
+  const body = {
+    cerrado_at: new Date().toISOString(), cerrado_por: c.cerradoPor||'', asistentes: c.asistentes,
+    r_objetivo: c.rObjetivo, r_convocatoria: c.rConvocatoria, r_articulacion: c.rArticulacion,
+    cierre_notas: c.cierreNotas||'', estado: 'Ejecutado', updated_at: new Date().toISOString()
+  };
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/eventos?id=eq.${encodeURIComponent(id)}`, {method:'PATCH', headers: sbHeaders({'Prefer':'return=representation'}), body: JSON.stringify(body)});
+  if(!r.ok) throw new Error('cerrar evento '+r.status+' '+(await r.text()));
+  return fromDb((await r.json())[0]);
 }
 async function restaurarEvento(id){
   const r = await fetch(`${SUPABASE_URL}/rest/v1/eventos?id=eq.${encodeURIComponent(id)}`, {method:'PATCH', headers: sbHeaders({'Prefer':'return=representation'}), body: JSON.stringify({eliminado_at:null})});
@@ -759,6 +877,35 @@ const CATEGORIAS = [
   {nombre:'Calidad institucional', color:'#445c50', icon:`<path d="M12 3.1 4.7 5.9v5.7c0 4.4 3.1 8.4 7.3 9.4 4.2-1 7.3-5 7.3-9.4V5.9L12 3.1Z"/><path d="M8.8 11.9 10.9 14l4.3-4.3"/>`}
 ];
 const MAX_CATEGORIAS = 3;
+
+/* campus UdeA — Medellín + sedes y seccionales en Antioquia */
+const CAMPUS = ['Campus Medellín','Campus El Carmen de Viboral','Campus en Urabá','Campus Caucasia','Campus Andes','Campus Santa Fe de Antioquia','Campus Puerto Berrío','Campus Sonsón','Campus Amalfi','Campus Segovia','Campus Yarumal'];
+
+/* hora: <input type=time> entrega 24h; se muestra y guarda en 12h */
+function hora24a12(v){
+  if(!v) return '';
+  const m = /^(\d{1,2}):(\d{2})/.exec(v);
+  if(!m) return v;
+  let h = parseInt(m[1],10); const min = m[2];
+  const suf = h < 12 ? 'a.m.' : 'p.m.';
+  h = h % 12; if(h === 0) h = 12;
+  return h + ':' + min + ' ' + suf;
+}
+function hora12a24(txt){
+  if(!txt) return '';
+  const t = txt.trim();
+  const m = /^(\d{1,2}):(\d{2})\s*([ap])\.?\s*m\.?/i.exec(t);
+  if(!m){
+    /* datos previos guardados en 24h ("11:00") — se respetan tal cual */
+    const m24 = /^(\d{1,2}):(\d{2})$/.exec(t);
+    if(m24 && +m24[1] <= 23) return String(+m24[1]).padStart(2,'0') + ':' + m24[2];
+    return '';
+  }
+  let h = parseInt(m[1],10); const min = m[2]; const ap = m[3].toLowerCase();
+  if(ap === 'p' && h !== 12) h += 12;
+  if(ap === 'a' && h === 12) h = 0;
+  return String(h).padStart(2,'0') + ':' + min;
+}
 const CAT_MAP = Object.fromEntries(CATEGORIAS.map(c=>[c.nombre, c]));
 function catIcon(nombre, size){
   const c = CAT_MAP[nombre];
@@ -876,8 +1023,8 @@ const UNIDADES = [
 const TIPO_PLURAL = {'Dirección':'Direcciones','Facultad':'Facultades','Escuela':'Escuelas','Instituto':'Institutos','Corporación':'Corporaciones'};
 function findUnidad(nombre){ return UNIDADES.find(u => u.nombre === nombre) || null; }
 
-const FIELD_ORDER = ['evento','organizador','fecha','hora','fechaInicio','fechaFin','duracion','modalidad','ubicacion','microcomunidad','etapaCiclo','categorias','aliadosInternos','aliadosExternos','presupuesto','fuenteFinanciacion','responsable','canalConvocatoria','estado','mecanismoCaptura','metaParticipacion','prioridad','observaciones'];
-const CSV_HEADERS = ['Evento','Organizador','Fecha','Hora','Fecha inicio','Fecha fin','Duración','Modalidad','Ubicación','Microcomunidad / Segmento','Enfocado a egresados en','Categorías','Aliados internos','Aliados externos','Presupuesto estimado','Fuente de financiación','Responsable','Canal de convocatoria','Estado','Mecanismo de captura de datos','Meta de participación','Prioridad','Observaciones'];
+const FIELD_ORDER = ['evento','organizador','fecha','hora','campus','fechaInicio','fechaFin','duracion','modalidad','ubicacion','microcomunidad','etapaCiclo','categorias','aliadosInternos','aliadosExternos','presupuesto','fuenteFinanciacion','responsable','canalConvocatoria','estado','mecanismoCaptura','metaParticipacion','prioridad','observaciones'];
+const CSV_HEADERS = ['Evento','Organizador','Fecha','Hora','Campus','Fecha inicio','Fecha fin','Duración','Modalidad','Ubicación','Microcomunidad / Segmento','Enfocado a egresados en','Categorías','Aliados internos','Aliados externos','Presupuesto estimado','Fuente de financiación','Responsable','Canal de convocatoria','Estado','Mecanismo de captura de datos','Meta de participación','Prioridad','Observaciones'];
 
 let events = [];
 let activityLog = [];
@@ -892,6 +1039,7 @@ let eliminados = [];
 let viendoPapelera = false;
 let contactoUnidad = null;
 let focoPrevio = null;
+let cierreEventId = null;
 
 const contentEl = document.getElementById('content');
 const bannerEl = document.getElementById('banner');
@@ -901,6 +1049,8 @@ const interesOverlayEl = document.getElementById('interesOverlay');
 const interesFormEl = document.getElementById('interesForm');
 const contactoOverlayEl = document.getElementById('contactoOverlay');
 const contactoFormEl = document.getElementById('contactoForm');
+const cierreOverlayEl = document.getElementById('cierreOverlay');
+const cierreFormEl = document.getElementById('cierreForm');
 
 function esc(s){ return (s||'').toString().replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 let undoTimer = null;
@@ -956,7 +1106,10 @@ function syncURL(){
     if(!e.startsWith('Todos')) p.set('interes', e);
   }
   const qs = p.toString();
-  history.replaceState(null, '', qs ? '?'+qs : location.pathname);
+  /* en orígenes opacos (data:, sandbox) replaceState lanza SecurityError;
+     la URL es un extra, nunca debe tumbar el render */
+  try{ history.replaceState(null, '', qs ? '?'+qs : location.pathname); }
+  catch(e){ /* sin sincronización de URL, la app sigue funcionando */ }
 }
 function leerURL(){
   const p = new URLSearchParams(location.search);
@@ -1010,6 +1163,15 @@ function buildUnidadOptionsHTML(placeholder){
 function populateAliadosAddSelect(){ document.getElementById('aliadosAddSelect').innerHTML = buildUnidadOptionsHTML('+ Agregar unidad académica…'); }
 function populateInteresUnidadSelect(){ document.getElementById('interesUnidadSelect').innerHTML = buildUnidadOptionsHTML('Selecciona tu unidad académica…'); }
 function populateOrganizadorSelect(){ document.getElementById('f-organizador').innerHTML = buildUnidadOptionsHTML('Selecciona la unidad organizadora…'); }
+function populateCampusSelect(){
+  document.getElementById('f-campus').innerHTML = '<option value="">Sin campus asignado</option>' +
+    CAMPUS.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+}
+/* vista previa 12h junto al selector de hora */
+function refrescarHoraPreview(){
+  const p = document.getElementById('horaPreview');
+  if(p) p.textContent = hora24a12(document.getElementById('f-horaVal').value) || '—';
+}
 /* selector visual de categorías: checkboxes reales, máximo 3 */
 function populateCatGrid(){
   document.getElementById('catGrid').innerHTML = CATEGORIAS.map(c=>`
@@ -1049,6 +1211,8 @@ populateAliadosAddSelect();
 populateOrganizadorSelect();
 populateInteresUnidadSelect();
 populateCatGrid();
+populateCampusSelect();
+document.getElementById('f-horaVal').addEventListener('input', refrescarHoraPreview);
 
 /* ---------------- carga inicial ---------------- */
 async function loadAll(){
@@ -1156,6 +1320,7 @@ function renderFeed(){
     else if(a.tipo==='evento_editado') text = `Se actualizó <b>${esc(a.evento)}</b>`;
     else if(a.tipo==='evento_eliminado') text = `Se eliminó <b>${esc(a.evento)}</b>`;
     else if(a.tipo==='contacto') text = `<b>${esc(a.unidad)}</b> fue marcada como contactada${a.evento && a.evento!=='Contacto general' ? ' para '+esc(a.evento) : ''}`;
+    else if(a.tipo==='evento_finalizado') text = `<b>${esc(a.unidad)}</b> finalizó <b>${esc(a.evento)}</b>`;
     else if(a.tipo==='evento_restaurado') text = `Se restauró <b>${esc(a.evento)}</b> desde la papelera`;
     else if(a.tipo==='interes_evento') text = `<b>${esc(a.unidad)}</b> quiere aliarse a <b>${esc(a.evento)}</b>`;
     return `<div class="feed-item">${text}<div class="feed-date tabular">${formatRelativo(a.fecha)}</div></div>`;
@@ -1220,7 +1385,7 @@ function renderCalendar(){
     const aria = `${day}${partes.length? ' — '+partes.join('; ') : ', sin eventos'}`;
     const tip = [ ...evs.map(e=>e.evento), fest?('Festivo: '+fest):'', ef?ef.largo:'' ].filter(Boolean).join(' · ');
     const interactivo = evs.length || fest || ef;
-    html += `<div class="cal-cell${evs.length?'':' empty'}">${interactivo
+    html += `<div class="cal-cell${evs.length?'':' sin-ev'}">${interactivo
       ? `<button type="button" class="${cls}" data-day="${key}" aria-label="${esc(aria)}" title="${esc(tip)}">${day}</button>`
       : `<span class="${cls}" aria-hidden="true">${day}</span>`}<span class="cal-note ${noteCls}">${esc(note)}</span></div>`;
   }
@@ -1304,6 +1469,7 @@ function renderEventos(){
   contentEl.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openForm(b.dataset.edit)));
   contentEl.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>deleteEvent(b.dataset.del)));
   contentEl.querySelectorAll('[data-interes]').forEach(b=>b.addEventListener('click',()=>openInteresForm(b.dataset.interes)));
+  contentEl.querySelectorAll('[data-fin]:not([disabled])').forEach(b=>b.addEventListener('click',()=>openCierreForm(b.dataset.fin)));
 }
 function renderPapelera(){
   document.getElementById('resultCount').textContent = `${eliminados.length} evento${eliminados.length===1?'':'s'} en la papelera`;
@@ -1358,7 +1524,7 @@ function cardHTML(ev){
   }
   const linea2 = [ev.fecha && !ev.fechaInicio ? ev.fecha : '', ev.hora && ev.hora!=='—' ? ev.hora : '', ev.duracion].filter(Boolean).map(esc).join(' · ');
   return `
-  <article class="card">
+  <article class="card${ev.cerradoAt?' cerrado':''}">
     <div class="card-top">
       <div class="card-date">${dateBlock}</div>
       <div style="min-width:0;">
@@ -1374,11 +1540,104 @@ function cardHTML(ev){
       <span class="chip estado-${esc(ev.estado)}">${esc(ev.estado)}</span>
       <span class="chip">${esc(ev.microcomunidad)}</span>
     </div>
-    <div class="card-actions"><button class="edit-btn" data-edit="${ev.id}">Ver / Editar</button><button class="del-btn" data-del="${ev.id}" aria-label="Eliminar evento" title="Eliminar evento">🗑</button></div>
+    <div class="card-actions">
+      <button class="edit-btn" data-edit="${ev.id}">Ver / Editar</button>
+      <button class="fin-btn" data-fin="${ev.id}" aria-label="${ev.cerradoAt?'Evento ya finalizado':'Finalizar evento'}" title="${ev.cerradoAt?'Evento ya finalizado':'Finalizar evento'}"${ev.cerradoAt?' disabled':''}>${ev.cerradoAt?'✓':'🏁'}</button>
+      <button class="del-btn" data-del="${ev.id}" aria-label="Eliminar evento" title="Eliminar evento">🗑</button>
+    </div>
+    ${cierreResumenHTML(ev)}
     ${count>0 ? `<div class="interes-count">${count} unidad${count>1?'es':''} interesada${count>1?'s':''} en aliarse</div>` : ''}
     <button type="button" class="btn btn-cta btn-cta-full" data-interes="${ev.id}">Quiero aliarme</button>
   </article>`;
 }
+
+/* ---------------- finalizar evento ---------------- */
+const RATE_IDS = {rateObjetivo:'rObjetivo', rateConvocatoria:'rConvocatoria', rateArticulacion:'rArticulacion'};
+function buildRateScales(){
+  Object.keys(RATE_IDS).forEach(id=>{
+    document.getElementById(id).innerHTML = [1,2,3,4,5].map(n=>`
+      <label class="rate-opt"><input type="radio" name="${id}" value="${n}"><span>${n}</span></label>`).join('');
+  });
+}
+function getRate(id){ const el = document.querySelector(`input[name="${id}"]:checked`); return el ? parseInt(el.value,10) : null; }
+function clearRates(){ document.querySelectorAll('.rate-opt input').forEach(i=>i.checked=false); }
+function promedioCierre(ev){
+  const vals = [ev.rObjetivo, ev.rConvocatoria, ev.rArticulacion].filter(v=>typeof v==='number' && v>0);
+  return vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length) : null;
+}
+function cierreResumenHTML(ev){
+  if(!ev.cerradoAt) return '';
+  const prom = promedioCierre(ev);
+  const partes = [];
+  if(typeof ev.asistentes==='number') partes.push(`<b>${ev.asistentes}</b> asistentes`);
+  if(prom!==null) partes.push(`<b>${prom.toFixed(1)}</b>/5 balance`);
+  return `<div class="cierre-resumen">
+    <div class="cr-top">✓ Finalizado${ev.cerradoPor?` · ${esc(ev.cerradoPor)}`:''}</div>
+    ${partes.length?`<div class="cr-nums">${partes.join('')}</div>`:''}
+  </div>`;
+}
+function openCierreForm(eventId){
+  const ev = events.find(e=>e.id===eventId);
+  if(!ev || ev.cerradoAt) return;
+  cierreEventId = eventId;
+  document.getElementById('cierreEventoLabel').textContent = 'Evento: ' + ev.evento;
+  cierreFormEl.reset(); clearRates();
+  const sel = document.getElementById('cierreUnidadSelect');
+  sel.innerHTML = buildUnidadOptionsHTML('Selecciona tu unidad…');
+  const aviso = document.getElementById('cierreAviso');
+  if(ev.organizador){
+    aviso.className = 'cierre-aviso';
+    aviso.innerHTML = `Solo <b>${esc(ev.organizador)}</b>, como unidad organizadora responsable, puede finalizar este evento.`;
+  }else{
+    aviso.className = 'cierre-aviso bloqueado';
+    aviso.innerHTML = 'Este evento no tiene <b>organizador responsable</b> asignado. Asígnalo en “Ver / Editar” antes de finalizarlo.';
+  }
+  focoPrevio = document.activeElement;
+  cierreOverlayEl.classList.add('show');
+  document.body.classList.add('modal-open');
+  setTimeout(()=>sel.focus(), 40);
+}
+function closeCierreForm(){
+  cierreOverlayEl.classList.remove('show'); document.body.classList.remove('modal-open'); cierreEventId=null;
+  if(focoPrevio && focoPrevio.focus) focoPrevio.focus();
+  focoPrevio = null;
+}
+document.getElementById('cierreCancelBtn').addEventListener('click', closeCierreForm);
+cierreOverlayEl.addEventListener('click', (e)=>{ if(e.target===cierreOverlayEl) closeCierreForm(); });
+
+cierreFormEl.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const ev = events.find(x=>x.id===cierreEventId);
+  if(!ev) return;
+  if(!ev.organizador){ showBanner('Asigna primero un organizador responsable al evento.'); return; }
+  const unidad = document.getElementById('cierreUnidadSelect').value;
+  if(!unidad){ showBanner('Selecciona tu unidad para continuar.'); return; }
+  /* sin login no hay identidad verificable: se valida que coincida con el organizador */
+  if(unidad !== ev.organizador){
+    showBanner(`Solo ${ev.organizador} puede finalizar este evento.`);
+    return;
+  }
+  const asisRaw = document.getElementById('cierreAsistentes').value.trim();
+  const asistentes = asisRaw==='' ? null : parseInt(asisRaw,10);
+  if(asisRaw!=='' && (isNaN(asistentes) || asistentes<0)){ showBanner('Escribe un número válido de asistentes.'); return; }
+  const rO=getRate('rateObjetivo'), rC=getRate('rateConvocatoria'), rA=getRate('rateArticulacion');
+  if(!rO || !rC || !rA){ showBanner('Califica las tres preguntas de 1 a 5 antes de finalizar.'); return; }
+  const liberar = ocupar(document.getElementById('submitCierreBtn'), 'Finalizando…');
+  try{
+    const saved = await cerrarEvento(ev.id, {
+      cerradoPor: unidad, asistentes, rObjetivo:rO, rConvocatoria:rC, rArticulacion:rA,
+      cierreNotas: document.getElementById('cierreNotas').value.trim()
+    });
+    const idx = events.findIndex(x=>x.id===ev.id); if(idx>-1) events[idx]=saved;
+    const act = await insertActividad({tipo:'evento_finalizado', evento:saved.evento, unidad});
+    activityLog.push(act);
+    closeCierreForm();
+    flashSaved();
+    showBanner(`“${saved.evento}” quedó finalizado. ¡Gracias por reportar!`, 'success');
+    refreshUI();
+  }catch(err){ console.error(err); showBanner('No se pudo finalizar el evento. Intenta de nuevo.'); }
+  finally{ liberar(); }
+});
 
 /* ---------------- cronograma (gantt) ---------------- */
 function dayOfYear(d){ return Math.floor((d - new Date(d.getFullYear(),0,0))/86400000); }
@@ -1512,6 +1771,9 @@ function openForm(id){
   /* categorias vive en checkboxes, no en formEl.elements → se excluye del bucle */
   FIELD_ORDER.filter(f=>f!=='categorias').forEach(f=>{ const el=formEl.elements[f]; if(el) el.value = ev[f] || (el.tagName==='SELECT'?el.options[0].value:''); });
   setCategoriasForm(ev.categorias || []);
+  /* hora vive en un <input type=time> propio, fuera de formEl.elements */
+  document.getElementById('f-horaVal').value = hora12a24(ev.hora || '');
+  refrescarHoraPreview();
   const organizadorSelect = document.getElementById('f-organizador');
   const presetOrganizadores = Array.from(organizadorSelect.options).map(o=>o.value);
   if(ev.organizador && !presetOrganizadores.includes(ev.organizador)){ organizadorSelect.value='Otro'; document.getElementById('organizadorOtroInput').value=ev.organizador; document.getElementById('organizadorOtroWrap').style.display=''; }
@@ -1539,11 +1801,12 @@ document.addEventListener('keydown', (e)=>{
   if(overlayEl.classList.contains('show')) closeForm();
   if(interesOverlayEl.classList.contains('show')) closeInteresForm();
   if(contactoOverlayEl.classList.contains('show')) closeContactoForm();
+  if(cierreOverlayEl.classList.contains('show')) closeCierreForm();
 });
 /* mantiene el tabulador dentro del modal abierto */
 document.addEventListener('keydown', (e)=>{
   if(e.key!=='Tab') return;
-  const abierto = [overlayEl, interesOverlayEl, contactoOverlayEl].find(o=>o.classList.contains('show'));
+  const abierto = [overlayEl, interesOverlayEl, contactoOverlayEl, cierreOverlayEl].find(o=>o.classList.contains('show'));
   if(!abierto) return;
   const foco = abierto.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"])');
   const visibles = Array.from(foco).filter(el=>el.offsetParent!==null);
@@ -1568,6 +1831,9 @@ formEl.addEventListener('submit', async (e)=>{
     const data = {};
     FIELD_ORDER.filter(f=>f!=='categorias').forEach(f=>{ if(formEl.elements[f]) data[f] = formEl.elements[f].value.trim(); });
     data.categorias = getCategoriasForm();
+    data.hora = hora24a12(document.getElementById('f-horaVal').value);
+    /* "fecha" (texto libre) ya no se edita; se conserva lo que traía el evento */
+    data.fecha = editingId ? ((events.find(e=>e.id===editingId)||{}).fecha || '') : '';
     if(!data.evento){ showBanner('Escribe un nombre para el evento antes de guardar.'); return; }
     if(data.organizador==='Otro'){ data.organizador = document.getElementById('organizadorOtroInput').value.trim() || 'Otro (sin especificar)'; }
     data.aliadosInternos = currentAliados.slice();
@@ -1711,13 +1977,45 @@ function renderCobertura(){
   contentEl.querySelectorAll('[data-mail]').forEach(b=>b.addEventListener('click', ()=>invitarDesdeCobertura(b.dataset.mail)));
   contentEl.querySelectorAll('[data-confirm]').forEach(b=>b.addEventListener('click', ()=>marcarContactada(b.dataset.confirm)));
 }
+/* texto neutro: lo puede enviar cualquier unidad, no solo la División de Egresados */
 function invitarDesdeCobertura(nombre){
   const u = findUnidad(nombre); if(!u || !u.correo) return;
-  const relacionados = events.filter(e=>Array.isArray(e.aliadosInternos)&&e.aliadosInternos.includes(nombre));
-  const eventoRef = relacionados.length ? relacionados[0].evento : 'próximas actividades de la División de Egresados';
-  const subject = encodeURIComponent('Invitación — '+eventoRef);
-  const body = encodeURIComponent(`Hola ${u.enlace},\n\nTe escribo desde la División de Egresados en relación con "${eventoRef}".\n\nQuedo atento a tu respuesta.\n\nSaludos.`);
-  window.open(`mailto:${u.correo}?subject=${subject}&body=${body}`, '_blank');
+  const relacionados = events.filter(e=>(Array.isArray(e.aliadosInternos)&&e.aliadosInternos.includes(nombre)) || e.organizador===nombre);
+  const ev = relacionados[0] || null;
+  const saludo = u.enlace ? `Hola ${u.enlace}` : `Buen día, equipo de ${u.nombre}`;
+  const asunto = ev ? `Interés en participar — ${ev.evento}` : `Interés en participar en el cronograma de eventos de egresados`;
+
+  const detalle = [];
+  if(ev){
+    if(ev.fechaInicio){
+      const d = parseISO(ev.fechaInicio);
+      const fin = ev.fechaFin && ev.fechaFin!==ev.fechaInicio ? parseISO(ev.fechaFin) : null;
+      detalle.push(`Fecha: ${d.getDate()} de ${MESES[d.getMonth()]} de ${d.getFullYear()}` +
+        (fin ? ` al ${fin.getDate()} de ${MESES[fin.getMonth()]} de ${fin.getFullYear()}` : ''));
+    } else if(ev.fecha){ detalle.push(`Fecha: ${ev.fecha}`); }
+    /* "Por definir" no aporta nada en un correo de invitación */
+    const util = v => v && !/^por definir$/i.test(v.trim());
+    if(util(ev.hora)) detalle.push(`Hora: ${ev.hora}`);
+    if(util(ev.campus)) detalle.push(`Campus: ${ev.campus}`);
+    if(util(ev.ubicacion)) detalle.push(`Lugar: ${ev.ubicacion}`);
+    if(util(ev.modalidad)) detalle.push(`Modalidad: ${ev.modalidad}`);
+    if(util(ev.organizador)) detalle.push(`Organiza: ${ev.organizador}`);
+  }
+
+  const cuerpo = [
+    `${saludo},`, '',
+    ev
+      ? `Escribo en relación con "${ev.evento}", publicado en el Cronograma de Eventos de Egresados de la Universidad de Antioquia.`
+      : `Escribo en relación con las actividades publicadas en el Cronograma de Eventos de Egresados de la Universidad de Antioquia.`,
+    '',
+    detalle.length ? detalle.join('\n') + '\n' : '',
+    `Nos interesa que ${u.nombre} participe y explorar cómo podemos articularnos: difusión entre sus egresados, participación de docentes o egresados de la unidad, o apoyo en la realización.`,
+    '',
+    'Quedo atento(a) a sus comentarios para coordinar los detalles.',
+    '', 'Cordial saludo,', ''
+  ].filter(l=>l!==null).join('\n');
+
+  window.open(`mailto:${u.correo}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`, '_blank');
 }
 /* modal propio en vez de prompt() nativo */
 function marcarContactada(nombre){
@@ -1807,6 +2105,7 @@ function exportCSV(){
 }
 document.getElementById('exportBtn').addEventListener('click', exportCSV);
 
+buildRateScales();
 loadAll();
 </script>
 </body>
